@@ -1,0 +1,256 @@
+---
+title: "data_workflow"
+author: "Austin Wei"
+date: "3/25/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# packages
+#install.packages("dpylr")
+#install.packages("stringr")
+library(dplyr)
+library(stringr)
+library(ggplot2)
+library(hrbrthemes)
+library(kableExtra)
+options(knitr.table.format = "html")
+library(babynames)
+library(streamgraph)
+library(viridis)
+library(DT)
+library(plotly)
+```
+
+# task
+
+Create a syntax file that pulls the dashboard dataset. 
+Save it as the raw data with date in the filename. 
+Delete the indicators that are not on the shortlist 
+Save another raw dataset of the relevant indicators.
+
+The workflow is that it can be dynamic – pulling in new data and revising/creating new code for analyses and figures throughout the year, but also can be archived once a year in a static form that provides the replication data and code for each year’s report.
+
+## Read raw data
+```{r}
+raw = read.csv("~/Documents/fscr2030/fscr2030/Raw_data/new_rawdata_SavingDate.csv")
+str(raw)
+```
+
+## Identify the indicators
+```{r}
+# Identify how many distinct indicators in the dataset
+
+raw_indicator = raw %>% group_by(Indicator)
+
+## and what are they
+## raw_indicator %>% summarise_each(funs(length))
+
+# Search indicator's name in dashboard with only one keyword
+# note that whether or not the keyword's letter is capital matters
+
+x <- with(raw_indicator, str_detect(Indicator, 'undernourishment')) 
+
+raw_indicator[x,, drop=FALSE] %>% summarise_each(funs(length))
+
+# Search indicator's name in dashboard with two or more keywords
+
+## x <- with(raw_indicator, str_detect(Indicator, 'capita') &
+##             str_detect(Indicator, 'consumption'))
+
+## raw_indicator[x,, drop=FALSE] %>% summarise_each(funs(length))
+
+```
+
+# Data Driven Script
+```{r}
+# Pull the data from dashboard
+
+Indicator_name = raw_indicator[raw$Indicator == "Indicator Name showing in the data", ]
+
+or
+
+Indicator_name = subset(raw_indicator,Indicator %in% c('Indicator_name1', 'Indicator_name2', 'Indicator_name3') )
+
+# Save the data as csv files:
+# decimal point = "." and value separators = comma (",")
+
+write.csv(Indicator_name, file = "Indicator_name_SavingDate.csv")
+
+```
+
+# TWG1 Data Driven
+```{r}
+# Pull the data from dashboard
+
+Vegetable_yield = raw_indicator[raw$Indicator == "Vegetable yield", ]
+
+Supply = subset(raw_indicator,Indicator %in% c('Supply of eggs', 'Supply of fish', 'Supply of fruit', 'Supply of meat', 'Supply of milk', 'Supply of pulses', 'Supply of vegetables') )
+
+Losses = subset(raw_indicator,Indicator %in% c('Losses of fruit crops', 'Losses of pulse crops', 'Losses of vegetable crops') )
+
+Relative_Caloric_Prices = subset(raw_indicator,Indicator %in% c('Relative caloric price (RCP) of Fats and oils', 'Relative caloric price (RCP) of Salty snacks', 'Relative caloric price (RCP) of Pulses', 'Relative caloric price (RCP) of Eggs', 'Relative caloric price (RCP) of Fish', 'Relative caloric price (RCP) of green leafy vegetables','Relative caloric price (RCP) of Milk', 'Relative caloric price (RCP) of Vitamin A rich fruits','Relative caloric price (RCP) of Soft drinks','Relative caloric price (RCP) of White meat') )
+
+Food_insecurity_experience_scale = raw_indicator[raw$Indicator == "Prevalence of moderate or severe food insecurity", ]
+
+# Save the data as csv files:
+# decimal point = "." and value separators = comma (",")
+write.csv(Vegetable_yield, file = "TWG_1/Vegetable_yield_20210330.csv")
+
+write.csv(Supply, file = "TWG_1/Supply_20210330.csv")
+
+write.csv(Losses, file = "TWG_1/Losses_20210330.csv")
+
+write.csv(Relative_Caloric_Prices, file = "TWG_1/Relative_Caloric_Prices_20210330.csv")
+
+write.csv(Food_insecurity_experience_scale, file = "TWG_1/Food_insecurity_experience_scale_20210330.csv")
+```
+
+
+
+
+# TWG2 Data Driven
+```{r}
+# Pull the indicators that we are interested in
+
+Agri_land = raw_indicator[raw$Indicator == "Agricultural land as percentage of country land area", ]
+
+Tree_cover = raw_indicator[raw$Indicator == "Average tree cover in agricultural land", ]
+
+Crop_species = raw_indicator[raw$Indicator == "Average species crop richness", ]
+
+Persticides = raw_indicator[raw$Indicator == "Pesticides per ha of arable land", ]
+
+Fertilizer_use = raw_indicator[raw$Indicator == "Fertilizer consumption", ]
+
+Nutrient_N = raw_indicator[raw$Indicator == "Nutrient nitrogen (N) per ha of arable land", ]
+
+Nutrient_P2O5 = raw_indicator[raw$Indicator == "Nutrient phosphate (P2O5) per ha of arable land", ]
+
+Agri_water = raw_indicator[raw$Indicator == "Agricultural water withdrawal as percentage of total renewable water resources", ]
+
+Soil_organic = raw_indicator[raw$Indicator == "Soil organic content", ]
+
+Ecological_fp = raw_indicator[raw$Indicator == "Total ecological footprint of production (higher = worst)", ]
+
+GHG_agri = raw_indicator[raw$Indicator == "GHG emissions from agriculture", ]
+
+# Save the data as csv files:
+# decimal point = "." and value separators = comma (",")
+
+#write.csv(Agri_land, file = "TWG_2/Agri_land_20210330.csv")
+
+#write.csv(Tree_cover, file = "TWG_2/Tree_cover_20210330.csv")
+
+#write.csv(Crop_species, file = "TWG_2/Crop_species_20210330.csv")
+
+#write.csv(Persticides, file = "TWG_2/Persticides_20210330.csv")
+
+#write.csv(Fertilizer_use, file = "TWG_2/Fertilizer_use_20210330.csv")
+
+#write.csv(Nutrient_N, file = "TWG_2/Nutrient_N_20210330.csv")
+
+#write.csv(Nutrient_P2O5, file = "TWG_2/Nutrient_P2O5_20210330.csv")
+
+#write.csv(Agri_water, file = "TWG_2/Agri_water_20210330.csv")
+
+#write.csv(Soil_organic, file = "TWG_2/Soil_organic_20210330.csv")
+
+#write.csv(Ecological_fp, file = "TWG_2/Ecological_fp_20210330.csv")
+
+#write.csv(GHG_agri, file = "TWG_2/GHG_agri_20210330.csv")
+```
+
+# TWG3
+```{r}
+# Pull the indicators from dashboad
+
+Agriculture_value_added = raw_indicator[raw$Indicator == "Agriculture, forestry, and fishing, value added per worker", ]
+
+Gini_coefficient = raw_indicator[raw$Indicator == "Gini index", ]
+
+# Save the data as csv files:
+# decimal point = "." and value separators = comma (",")
+
+write.csv(Agriculture_value_added, file = "TWG_3/Agriculture_value_added_20210330.csv")
+
+write.csv(Gini_coefficient, file = "TWG_3/Gini_coefficient_20210330.csv")
+```
+
+# TWG4
+```{r}
+Agr.landchange = raw_indicator[raw$Indicator == "Agricultural land change during the last 10 years", ]
+
+Prop_of_household = raw_indicator[raw$Indicator == "Proportion of household consumption spent on food and beverages", ]
+
+Prop_of_household_2.97 = raw_indicator[raw$Indicator == "Proportion of household consumption spent on food and beverages (households consuming less than $2.97 per person a day)", ]
+
+Environmental_impacts_of_food_consumption = subset(raw_indicator,Indicator %in% c('Per capita biodiversity impact of food consumption', 'Per capita GHG emissions of food consumption', 'Per capita eutrophication of food consumption', 'Per capita water use linked to food consumption') )
+
+Earths_required	= Prop_of_household = raw_indicator[raw$Indicator == "Number of Earths required", ]
+
+# Save the data as csv files:
+# decimal point = "." and value separators = comma (",")
+
+write.csv(Agr.landchange, file = "TWG_4/Agr.landchange_20210330.csv")
+
+write.csv(Prop_of_household, file = "TWG_4/Agr.landchange_20210330.csv")
+
+write.csv(Prop_of_household_2.97, file = "TWG_4/Agr.landchange_20210330.csv")
+
+write.csv(Environmental_impacts_of_food_consumption, file = "TWG_4/Agr.landchange_20210330.csv")
+
+```
+
+# NEW raw data
+```{r}
+# Remove the raw and raw-indicator data
+# from our environment
+rm(raw_indicator)
+rm(raw)
+
+# Then get all dataframes and combind them
+dfs <- Filter(function(x) is(x, "data.frame"), mget(ls()))
+
+new_rawdata = do.call(rbind, dfs)
+
+# Save it as a new raw_data.csv
+write.csv(new_rawdata, file = "Raw_data/new_rawdata_20210330.csv")
+
+```
+
+#TWG 2 data overview
+```{r}
+#tmp <- undernourishment %>%
+#  filter(AreaID %in% c("ARM", "AZE", "BRN" , "CHN",   "FJI", "GEO", "HKG", "IDN", "KAZ"))
+#  filter(!TimePeriod %in% c("2000","2001","2002","2003","2004") )
+# mutate(AreaID2=AreaID)
+GHG_agri
+tiff("test.tiff", units="in", width=8, height=50, res=300)
+GHG_agri %>%
+  group_by(AreaID) %>% 
+  summarise(Emissions = mean(DataValue)) %>%
+  ggplot( aes(x=AreaID, y=Emissions)) +
+    geom_bar(stat="identity",alpha=.6, width=.4,fill="#f68060")+
+   # geom_line(aes(group = TimePeriod),alpha=0.5) +
+    coord_flip() +
+    xlab("") +
+    theme_bw() +
+    ggtitle("GHG from Agriculture") +
+    labs(y="Emissions (MtCO2e)")
+    theme_ipsum()
+dev.off()
+
+
+```
+
+
+
+
+
+

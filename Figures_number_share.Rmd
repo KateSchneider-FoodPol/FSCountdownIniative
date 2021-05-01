@@ -1,0 +1,77 @@
+---
+title: "Figures"
+author: "Austin Wei"
+date: "4/30/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#load required packages
+```{r}
+library(ggplot2)
+library(reshape)
+library(viridis)
+library(hrbrthemes)
+library(tidyverse)
+```
+
+# read data and tidy data
+```{r}
+# read
+x <- read.csv("~/Documents/fscr2030/kate/Thurlow_2021_AgEmp_Numbers.csv")
+col2cvt <- c('AGR.', 'PRC.','INP.',"INP.","INP_AGR.","INP_PRC.","TRD.","TRD_AGR.","TRD_PRC.","HFS.")  # columns for conversion
+for (i in col2cvt){
+    x[[i]] <- as.numeric(gsub(",", "", x[[i]]))
+}
+# tidy
+x = x[,-c(1:2,4:7,17:19)]
+x_2 = x[,c(1,10,9,8,7,6,5,4,3,2)]
+
+# reshape the data
+x_melt = melt(x_2,id=c("Income.group"))
+
+# define the color
+custom.col <- c("#009E73","#FFDB6D", "#C4961A", "#F4EDCA", 
+                "#D16103", "#C3D7A4", "#52854C", "#4E84C4", "#293352")
+# plot data
+x_melt %>%
+  ggplot(aes(fill=variable, y=value, x=Income.group)) + 
+    geom_bar( stat="identity") +
+    scale_fill_manual(values = custom.col)+  # color, defined before
+    ggtitle("Number of Workers")+            # title
+    xlab("Country Income Group")+            # x label name
+    ylab("Number of Workers")+               # y label name
+    theme_bw()
+
+
+```
+
+
+```{r}
+# read
+y <- read.csv("~/Documents/fscr2030/kate/Thurlow_2021_AgEmp_Share.csv")
+col2cvt <- c('AGR.', 'PRC.','INP.',"INP.","INP_AGR.","INP_PRC.","TRD.","TRD_AGR.","TRD_PRC.","HFS.")  # columns for conversion
+for (i in col2cvt){
+    y[[i]] <- as.numeric(gsub(",", "", y[[i]]))
+}
+# tidy
+y = y[,-c(1:2,4:7,17:19)]
+y_2 = y[,c(1,10,9,8,7,6,5,4,3,2)]
+
+# reshape
+y_melt = melt(y_2,id=c("Income.group"))
+
+# plot
+y_melt %>%
+  ggplot(aes(fill=variable, y=value, x=Income.group)) + 
+    geom_bar( stat="identity") +
+    scale_fill_manual(values = custom.col)+
+    ggtitle("Share of Workforce")+
+    xlab("Country Income Group")+
+    ylab("Share of Workforce")+
+    theme_bw()
+```
+

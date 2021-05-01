@@ -1,5 +1,5 @@
 ---
-title: "Figures"
+title: "FSCR 2030 TWG3 (Livelihoods) 2021 Figure - Empoyment in Agri-Food Systems"
 author: "Austin Wei"
 date: "4/30/2021"
 output: pdf_document
@@ -21,7 +21,7 @@ library(tidyverse)
 # read data and tidy data
 ```{r}
 # read
-x <- read.csv("~/Documents/fscr2030/kate/Thurlow_2021_AgEmp_Numbers.csv")
+x <- read.csv("C:/Users/kates/OneDrive - Johns Hopkins/FS Countdown Data Team/1_Raw data/Thurlow_2021_AgEmp_Numbers.csv")
 col2cvt <- c('AGR.', 'PRC.','INP.',"INP.","INP_AGR.","INP_PRC.","TRD.","TRD_AGR.","TRD_PRC.","HFS.")  # columns for conversion
 for (i in col2cvt){
     x[[i]] <- as.numeric(gsub(",", "", x[[i]]))
@@ -30,7 +30,10 @@ for (i in col2cvt){
 x = x[,-c(1:2,4:7,17:19)]
 x_2 = x[,c(1,10,9,8,7,6,5,4,3,2)]
 
-# reshape the data
+# label employment types
+
+# reshape the data - I think there's a mistake here
+
 x_melt = melt(x_2,id=c("Income.group"))
 
 # define the color
@@ -41,9 +44,9 @@ x_melt %>%
   ggplot(aes(fill=variable, y=value, x=Income.group)) + 
     geom_bar( stat="identity") +
     scale_fill_manual(values = custom.col)+  # color, defined before
-    ggtitle("Number of Workers")+            # title
+    ggtitle("Number of Workers (Thousands)")+            # title
     xlab("Country Income Group")+            # x label name
-    ylab("Number of Workers")+               # y label name
+    ylab("Number of Workers (1000s)")+               # y label name
     theme_bw()
 
 

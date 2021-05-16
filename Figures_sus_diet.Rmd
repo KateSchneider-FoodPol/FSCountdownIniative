@@ -1,0 +1,146 @@
+---
+title: "Figures"
+author: "Austin Wei"
+date: "5/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# install packages
+##install.packages(dplyr)
+##install.packages(tidyverse)
+##install.packages(rworldmap)
+##install.packages(sp)
+##install.packages(classInt)
+##install.packages(RColorBrewer)
+
+# load packages
+library(dplyr)
+library(tidyverse)
+library(rworldmap)
+library(sp)
+library(classInt)
+library(RColorBrewer)
+```
+
+
+```{r}
+# Load R data
+load("/Users/apple/Downloads/Sustainable_food_systems_global_index-1.RData")
+# Clean and transform the data
+x = x %>%
+  rename(
+    Country = Link,
+    ISO3 = https...dataverse.harvard.edu.dataset.xhtml.persistentId.doi.10.7910.DVN.GYEG59,
+    SFS_index_2000_2003 = C,
+    SFS_index_2004_2006 = D,
+    SFS_index_2007_2009 = E,
+    SFS_index_2010_2012 = F,
+    SFS_index_2013_2016 = G,
+    SFS_index_2017 = H
+  )
+
+x = x [-c(1,2,3,4),]
+
+data = x[,c(1,2,8)]
+##class(data$SFS_index_2017)
+data$SFS_index_2017 = as.numeric(data$SFS_index_2017)
+
+# Change NA value to 0
+#data <- data %>%
+#  dplyr::mutate(SFS_index_2017 = ifelse(is.na(SFS_index_2017), 0, SFS_index_2017),
+#                SFS_index_2017 = as.numeric(SFS_index_2017))
+```
+
+
+```{r}
+#remove all data from current R environment
+##rm(list=ls())
+```
+
+
+```{r}
+sPDF <- joinCountryData2Map( data
+,joinCode = "ISO3"
+,nameJoinColumn = "ISO3")
+
+# Set fixed bins. There are no data less than 0.25 or larger than 0.75.
+# I set one bin with no data because I wanted to show this bin and rename it as NA in the legend
+classInt_s = classIntervals(sPDF$SFS_index_2017, n=11, style="fixed",
+ fixedBreaks=c(0.25,0.30,0.35,0.40,0.45,0.50,0.55,0.6,0.65,0.7,0.75,0.8))
+
+catMethod_s = classInt_s[["brks"]]
+
+mapDevice() #create world map shaped window
+
+# colourPalette can change the color
+# missingCountryCol is the color for missing values
+# mapTitle is to set the title, and here is set to empty
+# addLegend=FALSE allow us to add legend later
+mapParams_s = mapCountryData(sPDF
+,nameColumnToPlot='SFS_index_2017',
+missingCountryCol = c("gray"), 
+colourPalette = c("#D8B25C","#775F55", "#DD8047","#7BA79D","#EBDDC3","#A5AB81","#968C8C","#94B6D2","gray"),catMethod = catMethod_s,addLegend=FALSE,mapTitle='')
+
+# Change the legend text
+mapParams_s$legendText <-
+c('0.25 to 0.30' ,'0.30 to 0.35' ,'0.35 to 0.40'
+,'0.40 to 0.45'
+,'0.45 to 0.50','0.50 to 0.55','0.55 to 0.60','0.60 to 0.65','0.65 to 0.70','0.70 to 0.75',"Missing")
+
+# Add legend box, x means the legend position
+# I could not change the position properly since there are just few options like bottomleft, left, etc.
+do.call(addMapLegendBoxes
+,c(mapParams_s
+,cex=0.6
+,pt.cex=1.5
+,ncol=1
+,x='left'
+,title='SFS Index'
+))
+```
+
+
+```{r}
+diet = read.csv("~/Documents/fscr2030/fscr2030/Affordability of healthy diets.csv")
+diet = diet[,c(3,4,5)]
+diet
+```
+```{r}
+library(classInt)
+library(RColorBrewer)
+```
+
+
+```{r}
+sPDF2 <- joinCountryData2Map(diet
+,joinCode = "ISO3"
+,nameJoinColumn = "Country_code")
+classInt = classIntervals(sPDF2$percent.of.population.who.cannot.afford.a.healthy.diet, n=6, style="fixed",
+ fixedBreaks=c(-1,0,0.1, 0.25, 0.50, 0.75, 1))
+
+catMethod = classInt[["brks"]]
+
+mapDevice() #create world map shaped window
+mapParams = mapCountryData(sPDF2
+,nameColumnToPlot='percent.of.population.who.cannot.afford.a.healthy.diet',
+missingCountryCol = c("gray"), 
+colourPalette = c("gray","#775F55", "#DD8047","#7BA79D","#EBDDC3","#A5AB81"),catMethod = catMethod,addLegend=FALSE,mapTitle='')
+mapParams$legendText <-
+c("No Data",'<10%' ,'10-25%' ,'25-50%'
+,'50-75%'
+,'75-100%')
+do.call(addMapLegendBoxes
+,c(mapParams
+,cex=0.6
+,pt.cex=1.5
+,ncol=1
+,x='left'
+,title='% of the Population'
+))
+```
+

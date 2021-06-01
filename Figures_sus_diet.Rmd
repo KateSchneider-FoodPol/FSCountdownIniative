@@ -96,13 +96,14 @@ c('0.25 to 0.30' ,'0.30 to 0.35' ,'0.35 to 0.40'
 # Add legend box, x means the legend position
 # I could not change the position properly since there are just few options like bottomleft, left, etc.
 do.call(addMapLegendBoxes
-,c(mapParams_s
-,cex=0.6
-,pt.cex=1.5
-,ncol=1
-,x='left'
-,title='SFS Index'
-))
+        ,c(mapParams_s
+           ,cex=0.7
+           ,pt.cex=1.6
+           ,ncol=1
+           ,x='left'
+           ,title='SFS Index'
+        ))
+
 ```
 
 
@@ -136,12 +137,13 @@ c("No Data",'<10%' ,'10-25%' ,'25-50%'
 ,'50-75%'
 ,'75-100%')
 do.call(addMapLegendBoxes
-,c(mapParams
-,cex=0.6
-,pt.cex=1.5
-,ncol=1
-,x='left'
-,title='% of the Population'
-))
+        ,c(mapParams
+           ,cex=0.8
+           ,pt.cex=1.5
+           ,ncol=1
+           ,x='left'
+           ,title='% of the Population'
+        ))
+
 ```
 

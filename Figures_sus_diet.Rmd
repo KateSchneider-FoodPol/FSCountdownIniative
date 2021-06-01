@@ -84,7 +84,8 @@ mapDevice() #create world map shaped window
 mapParams_s = mapCountryData(sPDF
 ,nameColumnToPlot='SFS_index_2017',
 missingCountryCol = c("gray"), 
-colourPalette = c("#D8B25C","#775F55", "#DD8047","#7BA79D","#EBDDC3","#A5AB81","#968C8C","#94B6D2","gray"),catMethod = catMethod_s,addLegend=FALSE,mapTitle='')
+colourPalette = c("#cc5803","#e2711d","#ff9505","#ffb700","#ffc300","#48cae4","#00b4d8","#0096c7","#0077b6","#023e8a","gray"),catMethod = catMethod_s,addLegend=FALSE,mapTitle='')
+
 
 # Change the legend text
 mapParams_s$legendText <-
@@ -129,7 +130,7 @@ mapDevice() #create world map shaped window
 mapParams = mapCountryData(sPDF2
 ,nameColumnToPlot='percent.of.population.who.cannot.afford.a.healthy.diet',
 missingCountryCol = c("gray"), 
-colourPalette = c("gray","#775F55", "#DD8047","#7BA79D","#EBDDC3","#A5AB81"),catMethod = catMethod,addLegend=FALSE,mapTitle='')
+colourPalette = c("gray","#e6ccb2","#ddb892","#b08968","#9c6644","#7f5539"),catMethod = catMethod,addLegend=FALSE,mapTitle='')
 mapParams$legendText <-
 c("No Data",'<10%' ,'10-25%' ,'25-50%'
 ,'50-75%'

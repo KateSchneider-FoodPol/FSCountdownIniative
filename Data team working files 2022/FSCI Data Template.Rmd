@@ -1,0 +1,42 @@
+---
+title: "title name"
+date: "insert revised data date"
+output:
+  html_document: default
+---
+
+## 
+"insert analyst name"
+
+##
+"insert working group number and name"
+
+##
+"insert domain name"
+
+##
+
+The data being used is (insert information) at this link: (insert link)
+
+(Include any additional information that would be helpful about the data)
+
+```{r}
+library(tidyverse)
+library(naniar)
+library(ggplot2)
+```
+
+## Data Import 
+
+```{r}
+#data_name <- read_csv("csv file")
+#delete pound symbol to run once csv file is added
+```
+
+
+```{r}
+sessionInfo()
+```
+
+
+

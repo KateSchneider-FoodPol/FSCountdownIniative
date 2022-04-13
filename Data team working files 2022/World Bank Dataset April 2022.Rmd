@@ -1,0 +1,26 @@
+---
+title: "World Bank Dataset April 2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(readr)
+WorldBank <- read_csv("~/Desktop/World Bank Classifications CSV FILE.csv")
+
+glimpse(WorldBank)
+WorldBank$country_name <- as.factor(WorldBank$country_name)
+WorldBank$country_code <- as.factor(WorldBank$country_code)
+WorldBank$incgrp <- as.factor(WorldBank$incgrp)
+WorldBank$incgrp_code <- as.factor(WorldBank$incgrp_code)
+WorldBank$region_code <- as.factor(WorldBank$region_code)
+WorldBank$wb_region <- as.factor(WorldBank$wb_region)
+WorldBank$chk_ifmatchonname <- as.factor(WorldBank$chk_ifmatchonname)
+
+glimpse(WorldBank)
+```
+

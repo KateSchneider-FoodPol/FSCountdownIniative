@@ -1,0 +1,6 @@
+```{r Generating barchart}
+summary(barchart)
+fincome <- c(2.0, 86.2, 58.9, 24.2)
+ 
+barplot(fincome, names.arg = c("High", "Low", "Lowermiddle", "Uppermiddle"),xlab = "Country Income Group", ylab = "Unable to Afford Healthy Diets", main = "Percentage of people unable to afford healthy diets", col = "light blue")
+```

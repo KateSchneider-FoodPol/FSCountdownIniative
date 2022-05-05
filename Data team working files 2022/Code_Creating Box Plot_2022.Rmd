@@ -1,0 +1,51 @@
+---
+title: "Creating Box Plot"
+author: "Destan Aytekin"
+date: '2022-05-05'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r}
+library(readxl)
+unicefdata_for_whisker_plot_2 <- read_excel("C:/Users/desta/OneDrive/Masaüstü/RA Application_Term 2 2021/Countdown 2030/FSCI_Assignment1/unicefdata_for whisker plot_2.xlsx")
+
+View(unicefdata_for_whisker_plot_2)
+
+setwd("C:/Users/desta/OneDrive/Masaüstü/RA Application_Term 2 2021/Countdown 2030/FSCI_Assignment1")
+
+#Prep necessary libraries 
+library(gt)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+View(unicefdata_for_whisker_plot_2)
+
+#Suriname and Palestine were not among World Bank countries. I kept them and assigned the regions as LAC and Middle East and North Africa, respectively.
+```
+
+```{r}
+median_region <- unicefdata_for_whisker_plot_2 %>%
++     group_by(unicefdata_for_whisker_plot_2$Region) %>%
++     summarize(median_value = median(MDD, na.rm = T))
+
+median_region
+```
+ 
+```{r}
+#Plot the median for each region for 2019
+unicefdata_for_whisker_plot_2 %>%
++     ggplot(aes(Region, MDD)) + 
++     ylab('Minimum Dietary Diversity') +
++     geom_boxplot() +
++     geom_point ()
+
+```

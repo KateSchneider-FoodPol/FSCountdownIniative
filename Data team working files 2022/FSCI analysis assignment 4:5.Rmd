@@ -1,0 +1,140 @@
+---
+title: "FSCI analysis assignment"
+author: "Zhongyun Zhang"
+date: "4/5/2022"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Analysis Assignment
+
+```{r}
+#import data
+setwd("~/Desktop/FSCI")
+data <- read.csv("ag.csv",sep = ",",header = TRUE)
+worldbank <- read.csv("worldbank.csv",sep = ",",header = TRUE)
+View(worldbank)
+```
+
+```{r}
+#clean for missing value and sort the data
+#year1 <- data$X2013.2017
+year2 <- data$X2018.2022
+data <- data[order(-year2),]
+data <- na.omit(data)
+View(data) 
+
+#omitted countries:
+#Andorra, Bahamas, Bosnia and Herzegovina, Cook Islands, Faroe Islands, Holy See, Kiribati, Liechtenstein, Marshall Islands, Micronesia, Nauru, Niue, Palau, |Samoa, San Marino, Solomon, Tokelau, Tonga, Tuvalu, Vanuatu
+```
+
+
+```{r}
+#median
+#Agricultural water withdrawal as % of total water withdrawal (%)
+
+hist(data$X2013.2017)
+hist(data$X2018.2022)
+```
+
+```{r}
+#install.packages("countrycode")
+#library(countrycode)
+#install.packages("rworldmap")
+
+library(rworldmap)
+x_2018 <- country2Region(data
+           ,nameDataColumn="X2018.2022"
+           ,joinCode="ADMIN"
+           ,nameJoinColumn="X"
+           ,regionType="Stern"
+           ,FUN="mean")
+x_2018
+```
+
+```{r}
+#corresponding country with dataset of countries in r
+#calculate median for country to region
+x_2013 <- country2Region(data
+           ,nameDataColumn="X2013.2017"
+           ,joinCode="ADMIN"
+           ,nameJoinColumn="X"
+           ,regionType="Stern"
+           ,FUN="mean")
+x_2013
+```
+
+```{r}
+#corresponding country with dataset of countries in order to plot world map
+mapworld <- joinCountryData2Map(data
+                           , joinCode = "NAME"
+                           , nameJoinColumn = "X")
+
+```
+
+
+```{r}
+#plot world map for 2018 to 2022
+# organge to blue color band, three color band
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+map_2018 <- mapCountryData(mapworld, nameColumnToPlot="X2018.2022",mapTitle = "Total renewable water resources from 2018 to 2022", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+do.call( addMapLegend, c( map_2018
+                        , legendLabels="all"
+                        , legendWidth=0.5
+                        ))
+```
+
+```{r}
+#plot world map for 2013-2017
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+map_2013 <- mapCountryData(mapworld, nameColumnToPlot="X2013.2017",mapTitle = "Total renewable water resources from 2013 to 2017", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+do.call(addMapLegend, c( map_2013
+                        , legendLabels="all"
+                        , legendWidth=0.5
+                        ))
+
+```
+
+
+
+```{r}
+#merge dataset with dataset with region and income level
+#install.packages("dplyr")
+#global <- subset(global, select = -c(UNICEF,Region,Estimate,Lower,Upper, Sample.size,X.1))
+a <- merge(data,worldbank, by = "X")
+#a <- subset(a,select = -c(X.1))
+#a <- na.omit(a)
+View(a)
+```
+
+
+```{r}
+#getting mean of countries agriculture water withdraw grouping by income group in 2018-2022
+income_level_2018 <- aggregate(x=a$X2018.2022,by = list(a$incgrp), FUN = mean)
+income_level_2018
+```
+
+```{r}
+#getting mean of countries agriculture water withdraw grouping by income group in 2018-2022
+income_level_2013 <- aggregate(x=a$X2013.2017,by = list(a$incgrp),FUN = mean)
+income_level_2013
+```
+
+
+```{r}
+#getting median of countries agriculture water withdraw grouping by income group in 2018-2022
+income_level_2018 <- aggregate(x=a$X2018.2022,by = list(a$incgrp),FUN = median)
+income_level_2018
+```
+
+
+```{r}
+#getting standard deviation of countries agriculture water withdraw grouping by income group in 2018-2022
+income_level_2018 <- aggregate(x=a$X2018.2022,by = list(a$incgrp),FUN = sd)
+income_level_2018
+```

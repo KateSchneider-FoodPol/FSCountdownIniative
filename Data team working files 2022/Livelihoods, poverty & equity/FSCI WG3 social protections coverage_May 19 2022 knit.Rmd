@@ -1,0 +1,87 @@
+---
+title: "Median annual coverage of any social protection and labor program 2010-2019"
+date: "April 22, 2022"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+##
+"Created April 5, 2022"
+
+## 
+"Marissa Silverberg"
+
+##
+"WG 3 Livelihoods & Equity"
+
+##
+"Social Protections"
+
+##
+
+The data being used is from the World Bank databank at this link: https://data.worldbank.org/indicator/per_allsp.cov_pop_tot
+
+```{r}
+library(tidyverse)
+library(naniar)
+library(ggplot2)
+
+install.packages("countrycode")
+library(countrycode)
+install.packages("rworldmap")
+library(rworldmap)
+```
+
+## Data Import 
+
+```{r}
+spcoverage <- read_csv("~/Desktop/spcoverage.csv")
+view(spcoverage)
+
+median_region <- spcoverage %>% 
+  pivot_longer(cols = !c(country_name, country_code, wb_region, indicator_name, indicator_code), names_to = "year", values_to = "value") %>% 
+  group_by(wb_region, year) %>% 
+  summarize(median_value = median(value, na.rm = T)) %>% 
+  pivot_wider(names_from = "year", values_from = "median_value") 
+
+
+
+view(median_region)
+
+ 
+```
+
+
+```{r}
+median_df <- median_region %>%
+  select("wb_region", "2010", "2011", "2012", 
+         "2013", "2014", "2015", "2016", "2017",
+         "2018", "2019")
+
+median_region <- median_region[-c(8), ]
+
+#if want to remove North America, (5)
+
+view(median_df)
+```
+
+```{r}
+#worldmap
+
+
+WorldMap_SPCover <- joinCountryData2Map(spcoverage, joinCode = "NAME", nameJoinColumn = "country_name")
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+mapCountryData(WorldMap_SPCover, nameColumnToPlot = "2019", mapTitle = "Social Protection Coverage, 2019", colourPalette = c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"), oceanCol = "gray", missingCountryCol = 'white') 
+
+
+```
+
+
+```{r}
+sessionInfo()
+```
+
+
+

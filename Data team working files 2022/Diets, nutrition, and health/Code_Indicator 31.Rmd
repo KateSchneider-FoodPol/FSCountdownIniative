@@ -1,0 +1,44 @@
+---
+title: "Indicator 31"
+author: "Destan Aytekin"
+date: '2022-05-24'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+#Preparing libraries
+library(gt)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+FAOSTAT_data_Indicator_31 <- read_csv("C:/Users/desta/OneDrive/Masaüstü/RA Application_Term 2 2021/Countdown 2030/Indicator 31/FAOSTAT_data_Indicator 31.csv")
+
+View(FAOSTAT_data_Indicator_31)
+
+#filter the data for 2019, the year that has the most up-to-date and representative data
+FAOSTAT_data_Indicator_31_2019 <- filter(FAOSTAT_data_Indicator_31,between(Year,2019,2019))
+
+#Merge the 2019 dataset with World Bnak classifications
+data_indicator31_2019 <- merge(FAOSTAT_data_Indicator_31_2019, World_Bank_Classifications, by = "Country")
+
+#62 observations was lost when merged with WB classifications. 
+
+```
+
+## Including Plots
+
+```{r}
+data_indicator31_2019 %>% ggplot(aes(WBRegion,Value)) + ylab('Availability/supply (g/day/capita) - pulses') + geom_boxplot() + geom_point()
+
+data_indicator31_2019 %>% ggplot(aes(WBIncome,Value)) + ylab('Availability/supply (g/day/capita) - pulses') + geom_boxplot() + geom_point()
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -11,6 +11,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 
+```{r}
+#Prep necessary libraries 
+library(gt)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+View(unicefdata_for_whisker_plot_2)
+```
 
 ```{r}
 View(food_prices_percentage_who_cannot_afford)

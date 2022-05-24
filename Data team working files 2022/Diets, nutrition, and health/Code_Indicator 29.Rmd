@@ -1,0 +1,38 @@
+---
+title: "Indicator 29"
+author: "Destan Aytekin"
+date: '2022-05-24'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+## R Markdown
+
+View(FAOSTAT_data_Indicator_29_2019_data)
+
+##Merging the dataset with World Bank Classifications
+
+data_indicator29 <- merge(FAOSTAT_data_Indicator_29_2019_data, World_Bank_Classifications, by = "Country")
+
+#63 observations was lost when merged with WB classifications (dropped from 213 to 150 observations)
+#2019 data is used as it was most the recent year of data with good country coverage.
+
+```
+
+## Including Plots
+
+
+```{r, echo=FALSE}
+
+data_indicator29 %>% ggplot(aes(WBRegion,Value)) + ylab('Availability/supply (g/day/capita) - vegetables') + geom_boxplot() + geom_point()
+
+data_indicator29 %>% ggplot(aes(WBIncome,Value)) + ylab('Availability/supply (g/day/capita) - vegetables') + geom_boxplot() + geom_point()
+
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

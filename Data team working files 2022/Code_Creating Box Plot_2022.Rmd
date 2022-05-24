@@ -33,6 +33,7 @@ View(unicefdata_for_whisker_plot_2)
 ```
 
 ```{r}
+#extra step useful if you want to see median values per region summarized. 
 median_region <- unicefdata_for_whisker_plot_2 %>%
 +     group_by(unicefdata_for_whisker_plot_2$Region) %>%
 +     summarize(median_value = median(MDD, na.rm = T))
@@ -48,4 +49,6 @@ unicefdata_for_whisker_plot_2 %>%
 +     geom_boxplot() +
 +     geom_point ()
 
+#Another example code that worked after merging the datasets (original and cleaned dataset with World Bank classifications in a new dataset we call e.g., data_indicator24.
+data_indicator24 %>% ggplot(aes(WBRegion,Value)) + ylab('Proportion of people who cannot afford a healthy diet') + geom_boxplot() + geom_point()
 ```

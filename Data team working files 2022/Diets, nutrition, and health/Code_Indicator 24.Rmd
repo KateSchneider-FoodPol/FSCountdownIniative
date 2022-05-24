@@ -27,6 +27,8 @@ View(food_prices_percentage_who_cannot_afford)
 #Merge data
 data_indicator24 <- merge(food_prices_percentage_who_cannot_afford, World_Bank_Classifications, by = "Country")
 
+#16 observations are lost when dataset is merged with the WB classifications.
+
 ```
 
 ## Including BoxPlots

@@ -1,1 +1,25 @@
+## R Markdown
 
+##Indicator 2: Zero fruit and vegetable consumption among infants and young children(age 6-23 months)
+
+```{r}
+
+#Prep necessary libraries 
+library(gt)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+View(unicefdata_for_whisker_plot_2)
+```
+
+```{r}
+#Merge the dataset with World Bank classifications
+data_indicator2_2019 <- merge(UNICEF_Zero_Fruits_and_Vegetables_Consumption_2019_data, World_Bank_Classifications, by = "Country")
+```
+
+```{r}
+#Plot the median for each region for 2019 - same code replicated for generating box plot for World Bank Income levels by hyst changing WBRegion into WBIncome in the code below.
+
+data_indicator2_2019 %>% ggplot(aes(WBRegion,Value)) + ylab('Proportion of people who cannot afford a healthy diet') + geom_boxplot() + geom_point()
+```

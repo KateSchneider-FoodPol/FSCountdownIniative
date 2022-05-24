@@ -11,9 +11,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 
-## R Markdown
 
 ##Indicator 2: Zero fruit and vegetable consumption among infants and young children(age 6-23 months)
+
+```{r}
+#Prep necessary libraries 
+library(gt)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+View(unicefdata_for_whisker_plot_2)
+```
 
 ```{r}
 

@@ -14,6 +14,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 View(FAOSTAT_data_Indicator_29_2019_data)
 
+#Preparing libraries
+library(gt)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
 ##Merging the dataset with World Bank Classifications
 
 data_indicator29 <- merge(FAOSTAT_data_Indicator_29_2019_data, World_Bank_Classifications, by = "Country")

@@ -35,7 +35,7 @@ data_indicator24 <- merge(food_prices_percentage_who_cannot_afford, World_Bank_C
 
 ```{r pressure, echo=FALSE}
 
-#CChanging WBIncome into WBRegion would generate the box plot for World Bank Regions.
+#Changing WBIncome into WBRegion would generate the box plot for World Bank Regions.
 
 data_indicator24 %>% ggplot(aes(WBIncome,Share)) + ylab('Proportion of people who cannot afford a healthy diet') + geom_boxplot() + geom_point()
 

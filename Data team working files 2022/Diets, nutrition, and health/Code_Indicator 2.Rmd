@@ -27,6 +27,7 @@ View(unicefdata_for_whisker_plot_2)
 ```{r}
 #Merge the dataset with World Bank classifications
 data_indicator2_2019 <- merge(UNICEF_Zero_Fruits_and_Vegetables_Consumption_2019_data, World_Bank_Classifications, by = "Country")
+#49 observations were lost when the dataset is merged with World Bank classifications, as the country names were absent from the World Bank list.
 ```
 
 ```{r}

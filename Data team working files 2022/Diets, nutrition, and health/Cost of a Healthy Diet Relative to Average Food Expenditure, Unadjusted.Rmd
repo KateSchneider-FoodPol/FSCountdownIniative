@@ -1,0 +1,41 @@
+---
+title: "Cost of a Healthy Diet Relative to Average Food Expenditure, Unadjusted"
+author: "Michael Di Girolamo"
+date: "5/26/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+#setting up data
+```{r}
+setwd("C:/Users/mrdig/Desktop/SAIS/Food Systems/Cost of a Healthy Diet Relative to Average Food Expenditure")
+data <- read.csv("Cost of a Healthy Diet Relative to Average Food Expenditure.csv",sep = ",",header = TRUE)
+View(data)
+data <- subset(data,select = c(ï..Country.name, median.CoRD))
+View(data)
+```
+#setting up map
+```{r}
+install.packages("rworldmap")
+library(rworldmap)
+mapworld <- joinCountryData2Map(data
+                           , joinCode = "NAME"
+                           , nameJoinColumn = "ï..Country.name")
+
+```
+#plotting the map
+
+```{r}
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+map_cord <- mapCountryData(mapworld, nameColumnToPlot="median.CoRD",mapTitle = "Cost of a Healthy Diet Relative to Average Food Expenditure (%)", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+do.call( addMapLegend, c( map_cord
+                        , legendLabels="all"
+                        , legendWidth=0.5
+                        ))
+```

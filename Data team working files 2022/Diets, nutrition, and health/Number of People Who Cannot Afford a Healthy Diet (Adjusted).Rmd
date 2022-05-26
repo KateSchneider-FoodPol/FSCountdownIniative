@@ -1,0 +1,41 @@
+---
+title: "Number of People Who Cannot Afford a Healthy Diet, Adjusted"
+author: "Michael Di Girolamo"
+date: "5/23/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+#setting up data
+```{r}
+setwd("C:/Users/mrdig/Desktop/SAIS/Food Systems/Number of people who cannot afford a healthy diet")
+data <- read.csv("Number of people who cannot afford a healthy diet.csv",sep = ",",header = TRUE)
+View(data)
+data <- subset(data,select = c(Country.name, median.CoRD.adjusted))
+View(data)
+```
+#setting up map
+```{r}
+install.packages("rworldmap")
+library(rworldmap)
+mapworld <- joinCountryData2Map(data
+                           , joinCode = "NAME"
+                           , nameJoinColumn = "Country.name")
+
+```
+#plotting the map
+
+```{r}
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+map_cord <- mapCountryData(mapworld, nameColumnToPlot="median.CoRD.adjusted",mapTitle = "Number of People Who Cannot Afford a Healthy Diet (Millions, Adjusted)", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+do.call( addMapLegend, c( map_cord
+                        , legendLabels="all"
+                        , legendWidth=0.5
+                        ))
+```

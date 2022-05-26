@@ -1,0 +1,69 @@
+---
+title: "Percentage children aged 5-17 engaged in child labor, 2013-2021"
+date: "May 26, 2022"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+## 
+
+"Created April 30, 2022"
+
+## 
+
+"Marissa Silverberg"
+
+## 
+
+"WG 3 Livelihoods & Equity"
+
+## 
+
+"Rights"
+
+## 
+
+The data being used is from MICS surveys at this link: <https://data.unicef.org/topic/child-protection/child-labour>
+
+```{r}
+library(tidyverse)
+library(naniar)
+library(ggplot2)
+library(countrycode)
+library(rworldmap)
+```
+
+## Data Import
+
+```{r}
+ChildLabor <- read_csv("~/Desktop/ChildLabor.csv")
+view(ChildLabor)
+ 
+```
+
+
+```{r}
+
+#world map
+
+WorldMap_Child <- joinCountryData2Map(ChildLabor, joinCode = "NAME", nameJoinColumn = "Country")
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+mapCountryData(WorldMap_Child, nameColumnToPlot = "Total", mapTitle = "% Children 5-17 Engaged in Child Labor, 2013-2021", colourPalette = c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"), oceanCol = "gray", missingCountryCol = 'white') 
+
+#boxplot
+
+#Unicef data already has identified regions (see ChildLaborRegion csv)
+
+ChildLaborRegion <- read_csv("~/Desktop/ChildLaborRegion.csv")
+
+ChildLaborRegion %>% ggplot(aes(ChildLaborRegion,Female)) + ylab('Female') + geom_boxplot() + geom_point()
+ChildLaborRegion %>% ggplot(aes(ChildLaborRegion,Male)) + ylab('Male') + geom_boxplot() + geom_point()
+
+
+```
+
+```{r}
+# sessionInfo() 
+```

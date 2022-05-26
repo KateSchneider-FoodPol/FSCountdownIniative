@@ -1,0 +1,38 @@
+---
+title: "Indicator 28"
+author: "Destan Aytekin"
+date: '2022-05-24'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+#Prepare the libraries
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+```
+
+##Including Plots for the dataset merged with WOrld Bank classifications and retitled as "data_indicator28_final1"
+
+##20 observations were lost when data was merged with the WB classifications, as those data were not among the WB country list.
+
+##2016-2018 data is used as it was most the recent year of data with good country coverage.
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+
+##Changing WBIncome into WBRegion would generate the boxplot for World Bank Regions.
+
+data_indicator28_final1 %>% ggplot(aes(WBIncome,Percentage)) + ylab('Share of dietary energy from roots cereals tubers') + geom_boxplot() + geom_point()
+
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

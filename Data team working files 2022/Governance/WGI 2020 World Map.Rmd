@@ -1,0 +1,86 @@
+---
+title: "WGI World Map 2020"
+author: "Deviana Dewi"
+date: '2022-04-10'
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(rworldmap)
+```
+```{r}
+setwd("~/Desktop")
+WGI_Data <- read.csv("WGI_VA_estimate.csv",sep = ",",header = TRUE)
+
+#Clean data and omit NA value 
+#WGI_Data <- na.omit(WGI_Data)
+View(WGI_Data)
+```
+
+```{r}
+#Create a map that makes a connection between IS03 (three-letter country code) and the column X.1 where WGI_Date has three-letter country acronym. In the absence of three-letter country acronym, mapworld <- joinCountryData2Map(data, joinCode = "NAME", nameJoinColumn = "X") 
+mapworld <- joinCountryData2Map(WGI_Data, joinCode = "ISO3", nameJoinColumn = "X.1")
+```
+
+```{r}
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+mapCountryData(mapworld, nameColumnToPlot="X2020" , mapTitle = "Worldwide Governance Indicators (WGI): Voice and Accountability, 2020", colourPalette = c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"), oceanCol = "gray", missingCountryCol = 'white')
+```
+
+```{r} 
+setwd("~/Desktop")
+WGI_Data_Income <- read.csv("Country Income Group.csv",sep = ";",header = TRUE)
+#View(WGI_Data_Income)
+# Merge WGI data set with the income level 
+a<-merge(WGI_Data, WGI_Data_Income,by = 'X') 
+View(a)
+```
+```{r}
+#mean for 2016 aggregate by income group
+#NA is there because we did not remove missing value when we clean the data
+#x = dataset's name $ the column of estimates 
+mean_2016 <- aggregate(x=a$X2016, by = list(a$WB.Income.Group), FUN = mean)
+mean_2016
+```
+
+```{r}
+#mean
+x_2016 <- country2Region(WGI_Data
+           ,nameDataColumn="X2016"
+           ,joinCode="ISO3"
+           ,nameJoinColumn="X.1"
+           ,regionType="Stern"
+           ,FUN="mean")
+x_2016
+```
+
+```{r}
+#standard deviation
+x_2016 <- country2Region(WGI_Data
+           ,nameDataColumn="X2016"
+           ,joinCode="ISO3"
+           ,nameJoinColumn="X.1"
+           ,regionType="Stern"
+           ,FUN="sd")
+x_2016
+```
+
+```{r}
+setwd("~/Desktop")
+WGI_GE_Data <- read.csv("WGI_Gov_Eff.csv",sep = ";",header = TRUE)
+
+#Clean data and omit NA value 
+#WGI_Data <- na.omit(WGI_Data)
+View(WGI_GE_Data)
+```
+
+```{r}
+library(rworldmap)
+mapworld2 <- joinCountryData2Map(WGI_GE_Data, joinCode = "ISO3", nameJoinColumn = "Code") 
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+mapCountryData(mapworld2, nameColumnToPlot="Estimate" , mapTitle = "Worldwide Governance Indicators (WGI): Government Effectiveness, 2020", colourPalette = c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"), oceanCol = "gray", missingCountryCol = 'white')
+```

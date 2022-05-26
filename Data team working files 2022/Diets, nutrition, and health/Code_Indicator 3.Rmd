@@ -1,0 +1,51 @@
+---
+title: "Indicator 2"
+author: "Destan Aytekin"
+date: '2022-05-24'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+##Indicator 2: Zero fruit and vegetable consumption among infants and young children(age 6-23 months)
+
+```{r}
+#Prep necessary libraries 
+library(gt)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+View(unicefdata_for_whisker_plot_2)
+```
+
+```{r}
+
+#Prep necessary libraries 
+library(gt)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+View(unicefdata_for_whisker_plot_2)
+```
+
+```{r}
+#Merge the dataset with World Bank classifications
+data_indicator3 <- merge(UNICEF_Zero_Eggs_and_flesh_food_Consumption_2019_data, World_Bank_Classifications, by = "Country")
+```
+
+```{r}
+#Plot the median for each region for 2019 - same code replicated for generating box plot for World Bank Income levels by hyst changing WBRegion into WBIncome in the code below.
+
+#For Chad, there was two different data from the two different resources; Rapport de l’enquête nationale de nutrition 2019 réalisée par la méthodologie SMART, and MICS6-Tchad, 2019, Rapport final. N’Djamena, Tchad. I included the data from the Rapport de l’enquête nationale de nutrition 2019 réalisée par la méthodologie SMART into the analysis.
+
+#2019 data is used, as it was the most recent year of data with good country coverage. 
+
+data_indicator2_2019 %>% ggplot(aes(WBRegion,Value)) + ylab('Eggs and Flesh Food Consumption') + geom_boxplot() + geom_point()
+```

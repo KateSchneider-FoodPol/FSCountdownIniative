@@ -1,0 +1,44 @@
+---
+title: "Indicator 24"
+author: "Destan Aytekin"
+date: '2022-05-24'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+#Prep necessary libraries 
+library(gt)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+View(unicefdata_for_whisker_plot_2)
+```
+
+```{r}
+View(food_prices_percentage_who_cannot_afford)
+
+#Merge data
+data_indicator24 <- merge(food_prices_percentage_who_cannot_afford, World_Bank_Classifications, by = "Country")
+
+#16 observations are lost when dataset is merged with the WB classifications.
+
+```
+
+## Including BoxPlots
+
+```{r pressure, echo=FALSE}
+
+#Changing WBIncome into WBRegion would generate the box plot for World Bank Regions.
+
+data_indicator24 %>% ggplot(aes(WBIncome,Share)) + ylab('Proportion of people who cannot afford a healthy diet') + geom_boxplot() + geom_point()
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

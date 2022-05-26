@@ -1,5 +1,5 @@
 ---
-title: "Coverage School Feeding Programs 2014-2019"
+title: "Coverage (%) School Feeding Programs, 2014-2019"
 date: "May 26, 2022"
 output:
   html_document: default
@@ -59,8 +59,11 @@ mapCountryData(WorldMap_SchoolFeed, nameColumnToPlot = "2019 [YR2019]", mapTitle
 
 schoolfeed <- read_csv("~/Desktop/SchoolFeeding.csv")
 years <- 9:14 # 2014:2019
+schoolfeed[years][ schoolfeed[years] == ".." ] <- NA
+schoolfeed <- as.data.frame(schoolfeed)
 schoolfeed[years][is.na(schoolfeed[years])] <- 0
 max_col <- max.col(schoolfeed[years], "last") + 8
+
 #schoolfeed <- max.col(replace(schoolfeed, is.na(schoolfeed), -Inf), ties.method="first")
 
 myfun <- function(position, max_col) {
@@ -71,8 +74,7 @@ positions <- 1:nrow(schoolfeed)
 schoolfeed$largest <- unlist(lapply(positions, myfun, max_col))
 #line above get error code that max_col can't be NA but set up as 1
 schoolfeed <- schoolfeed[schoolfeed$largest != 0,]
-
-
+schoolfeed$largest <- as.numeric(schoolfeed$largest)
 
 #worldmap
 
@@ -83,7 +85,7 @@ WorldMap_SchoolFeed <- joinCountryData2Map(schoolfeed,
 par(mai=c(0,0,0.2,0), xaxs="i",yaxs="i")
 mapCountryData(WorldMap_SchoolFeed, 
                nameColumnToPlot = "largest", 
-               mapTitle = "School Feeding Programs Coverage, 2014-2019", 
+               mapTitle = "Coverage (%) School Feeding Programs, 2014-2019", 
                colourPalette = c("#e0f3db",
                                  "#ccebc5",
                                  "#a8ddb5",

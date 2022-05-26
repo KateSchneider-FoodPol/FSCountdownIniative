@@ -1,0 +1,89 @@
+---
+title: "% Adequacy of benefits from social protection and labor programs, 2012-2019"
+date: "May 25, 2022"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+## 
+
+"Created April 5, 2022"
+
+## 
+
+"Marissa Silverberg"
+
+## 
+
+"WG 3 Livelihoods & Equity"
+
+## 
+
+"Social Protections"
+
+## 
+
+The data being used is from the World Bank The Atlas of Social Protection: Indicators of Resilience and Equity (ASPIRE) Database <https://data.worldbank.org/indicator/per_allsp.adq_pop_tot>
+
+```{r}
+library(tidyverse)
+library(naniar)
+library(ggplot2)
+library(countrycode)
+library(rworldmap)
+```
+
+## Data Import
+
+```{r}
+AdequateSP <- read_csv("~/Desktop/BenefitsAdequacy.csv")
+view(AdequateSP)
+
+
+AdequateSP <- read_csv("~/Desktop/BenefitsAdequacy.csv")
+years <- 57:64 # 2012:2019
+AdequateSP[years][is.na(AdequateSP[years])] <- 0
+max_col <- max.col(AdequateSP[years], "last") + 56
+
+myfun <- function(position, max_col) {
+  return(AdequateSP[[position, max_col[position]]])
+}
+
+positions <- 1:nrow(AdequateSP)
+AdequateSP$largest <- unlist(lapply(positions, myfun, max_col))
+AdequateSP <- AdequateSP[AdequateSP$largest != 0,]
+
+AdequateSP$largest <- as.numeric(AdequateSP$largest)
+### 
+
+
+#worldmap
+
+
+WorldMap_Adequate <- joinCountryData2Map(AdequateSP, 
+                                        joinCode = "NAME", 
+                                        nameJoinColumn = "Country Name")
+par(mai=c(0,0,0.2,0), xaxs="i",yaxs="i")
+mapCountryData(WorldMap_Adequate, 
+               nameColumnToPlot = "largest", 
+               mapTitle = "% Adequacy of benefits from social protection and labor programs, 2012-2019", 
+               colourPalette = c("#e0f3db",
+                                 "#ccebc5",
+                                 "#a8ddb5",
+                                 "#7bccc4",
+                                 "#4eb3d3",
+                                 "#2b8cbe",
+                                 "#0868ac" #,
+                                 #"#084081"
+                                 ), 
+               oceanCol = "gray", 
+               missingCountryCol = 'white') 
+
+
+```
+
+```{r}
+# sessionInfo() 
+```

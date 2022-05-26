@@ -1,0 +1,29 @@
+---
+title: "Status of Code World Map"
+author: "Deviana Dewi"
+date: '2022-05-24'
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd("~/Desktop")
+StatusCode <- read.csv("code_status_clean.csv",sep=",",header = TRUE)
+# Transform ".a" which is a missing value in STATA into "NA" in R
+StatusCode$value4[StatusCode$value4 == ".a"] <- NA
+#value4 is the Status of Code Implementation in Legislation where "No legal measures" = 1; "Moderately aligned with the code" = 2; "Some provisions of the Code included" = 3; "Substantially aligned with the Code" = 4
+View (StatusCode)
+```
+
+```{r}
+library(rworldmap)
+
+#Create a world map that makes a connection between country (without the code so it will be "NAME") and the column country_name 
+WorldMap_StatusCode <- joinCountryData2Map(StatusCode, joinCode = "NAME", nameJoinColumn = "country")
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+mapCountryData(WorldMap_StatusCode, nameColumnToPlot = "value4", mapTitle = "Status of Code Implementation in Legislation, 2020", colourPalette = c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"), oceanCol = "gray", missingCountryCol = 'white') 
+``` 
+

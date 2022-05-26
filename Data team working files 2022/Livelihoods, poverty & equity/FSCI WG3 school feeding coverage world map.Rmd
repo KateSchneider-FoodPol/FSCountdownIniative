@@ -1,0 +1,104 @@
+---
+title: "Coverage School Feeding Programs 2014-2019"
+date: "May 26, 2022"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+## 
+
+"Created April 29, 2022"
+
+## 
+
+"Marissa Silverberg"
+
+## 
+
+"WG 3 Livelihoods & Equity"
+
+## 
+
+"Social Protections"
+
+## 
+
+The data being used is from the World Bank Atlas of Social Protection at this link: <https://databank.worldbank.org/source/the-atlas-of-social-protection:-indicators-of-resilience-and-equity>
+
+```{r}
+library(tidyverse)
+library(naniar)
+library(ggplot2)
+library(countrycode)
+library(rworldmap)
+```
+
+## Data Import
+
+```{r}
+schoolfeed <- read_csv("~/Desktop/SchoolFeeding.csv")
+view(schoolfeed)
+
+ 
+```
+
+```{r}
+
+
+
+
+#worldmap for 2019 only
+
+WorldMap_SchoolFeed <- joinCountryData2Map(schoolfeed, joinCode = "NAME", nameJoinColumn = "Country Name")
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+mapCountryData(WorldMap_SchoolFeed, nameColumnToPlot = "2019 [YR2019]", mapTitle = "Social Protection Coverage, 2019", colourPalette = c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"), oceanCol = "gray", missingCountryCol = 'white') 
+
+#world map 2014-2019
+
+schoolfeed <- read_csv("~/Desktop/SchoolFeeding.csv")
+years <- 9:14 # 2014:2019
+schoolfeed[years][is.na(schoolfeed[years])] <- 0
+max_col <- max.col(schoolfeed[years], "last") + 8
+#schoolfeed <- max.col(replace(schoolfeed, is.na(schoolfeed), -Inf), ties.method="first")
+
+myfun <- function(position, max_col) {
+  return(schoolfeed[[position, max_col[position]]])
+}
+
+positions <- 1:nrow(schoolfeed)
+schoolfeed$largest <- unlist(lapply(positions, myfun, max_col))
+#line above get error code that max_col can't be NA but set up as 1
+schoolfeed <- schoolfeed[schoolfeed$largest != 0,]
+
+
+
+#worldmap
+
+
+WorldMap_SchoolFeed <- joinCountryData2Map(schoolfeed, 
+                                        joinCode = "NAME", 
+                                        nameJoinColumn = "Country Name")
+par(mai=c(0,0,0.2,0), xaxs="i",yaxs="i")
+mapCountryData(WorldMap_SchoolFeed, 
+               nameColumnToPlot = "largest", 
+               mapTitle = "School Feeding Programs Coverage, 2014-2019", 
+               colourPalette = c("#e0f3db",
+                                 "#ccebc5",
+                                 "#a8ddb5",
+                                 "#7bccc4",
+                                 "#4eb3d3",
+                                 "#2b8cbe",
+                                 "#0868ac" #,
+                                 #"#084081"
+                                 ), 
+               oceanCol = "gray", 
+               missingCountryCol = 'white') 
+
+
+```
+
+```{r}
+# sessionInfo() 
+```

@@ -1,0 +1,41 @@
+---
+title: "Total Pesticides Per Unit of Land"
+author: "Michael Di Girolamo"
+date: "5/24/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+#setting up data
+```{r}
+setwd("C:/Users/mrdig/Desktop/SAIS/Food Systems/Total pesticides per unit of land/Environment_Pesticides_E_All_Data")
+data <- read.csv("Environment_Pesticides_E_All_Data.csv",sep = ",",header = TRUE)
+View(data)
+data <- subset(data,select = c(Area, Y2019))
+View(data)
+```
+#setting up map
+```{r}
+install.packages("rworldmap")
+library(rworldmap)
+mapworld <- joinCountryData2Map(data
+                           , joinCode = "NAME"
+                           , nameJoinColumn = "Area")
+
+```
+#plotting the map
+
+```{r}
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+map_pest <- mapCountryData(mapworld, nameColumnToPlot="Y2019",mapTitle = "Total Pesticides Per Unit of Land, by Country", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+do.call( addMapLegend, c( map_pest
+                        , legendLabels="all"
+                        , legendWidth=0.5
+                        ))
+```

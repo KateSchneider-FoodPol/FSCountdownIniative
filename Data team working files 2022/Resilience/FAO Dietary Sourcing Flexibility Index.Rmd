@@ -1,0 +1,36 @@
+---
+title: "Statisitical Capacities"
+author: "Michael Di Girolamo"
+date: "5/27/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#setting up data
+```{r}
+setwd("C:/Users/mrdig/Desktop/SAIS/Food Systems/Indicator Codes/Resilience Capacities")
+Statistical <- read.csv("Statistical Annex Table A1.2 - 24.6.21.csv",sep=",",header = TRUE)
+data <- subset(Statistical, select = c(ï..,Total.DSFI.value))
+View(data)
+```
+#setting up map
+```{r}
+library(rworldmap)
+mapworld <- joinCountryData2Map(data
+                           , joinCode = "NAME"
+                           , nameJoinColumn = "ï..")
+
+```
+#plotting the map
+
+```{r}
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+map_dsfi <- mapCountryData(mapworld, nameColumnToPlot="Total.DSFI.value",mapTitle = "FAO Dietary Sourcing Flexibility Index by Country", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+do.call( addMapLegend, c( map_dsfi
+                        , legendLabels="all"
+                        , legendWidth=0.5
+                        ))
+```

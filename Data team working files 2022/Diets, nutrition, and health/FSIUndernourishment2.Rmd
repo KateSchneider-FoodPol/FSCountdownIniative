@@ -1,5 +1,5 @@
 title: "Undernourishment Prevalence"
-author: "Deviana Dewi"
+author: "Deviana Dewi & Michael Di Girolamo"
 date: '2022-05-26'
 output: word_document
 ---
@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 setwd("C:/Users/mrdig/Desktop/SAIS/Food Systems/Indicator Codes/Prevalence of Undernourishment")
-Undernourishment <- read.csv("FAOSTAT_data_5-27-2022.csv",sep=",",header = TRUE)
+Undernourishment <- read.csv("Prevalence of Undernourishment.csv",sep=",",header = TRUE)
 View (Undernourishment)
 ```
 
@@ -23,7 +23,6 @@ View(Undernourishment1)
 
 ```{r}
 #Transforming non-numerical characters in the value  
-Undernourishment1$Value[Undernourishment1$Value == "<2.5"] <- 2.5
 Undernourishment1$Value[Undernourishment1$Value == ""] <- NA
 View(Undernourishment1)
 ```

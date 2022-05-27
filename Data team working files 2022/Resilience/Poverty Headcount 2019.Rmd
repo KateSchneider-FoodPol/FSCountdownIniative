@@ -1,0 +1,32 @@
+---
+title: "Poverty Headcount 2021"
+author: "Deviana Dewi"
+date: '2022-05-20'
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd("~/Desktop")
+PovertyHeadcount_2019 <- read.csv("PovertyHeadcount2019.csv",sep=",",header = TRUE)
+View (PovertyHeadcount_2019)
+```
+
+```{r}
+#Multiply headcount data with 100. The $ operator extracts the values of the column that we want to multiply, and the * operator telly R that we want to multiply the values before the * sign by the values after the * sign.
+PovertyHeadcount_2019$headcount <- PovertyHeadcount_2019$headcount*100
+View (PovertyHeadcount_2019)
+```
+
+
+```{r}
+library(rworldmap)
+
+#Create a world map that makes a connection between country (without the code so it will be "NAME") and the column country_name 
+WorldMap_PovertyHeadcount <- joinCountryData2Map(PovertyHeadcount_2019, joinCode = "NAME", nameJoinColumn = "countryname")
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+mapCountryData(WorldMap_PovertyHeadcount, nameColumnToPlot = "headcount", mapTitle = "Poverty Headcount Ratio at $1.90 a day, 2019", colourPalette = c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"), oceanCol = "gray", missingCountryCol = 'white') 
+``` 

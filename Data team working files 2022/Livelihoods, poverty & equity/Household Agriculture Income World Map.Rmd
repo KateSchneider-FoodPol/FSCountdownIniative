@@ -1,0 +1,353 @@
+---
+title: "Households with significant income from agriculture"
+date: "May 25, 2022"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: default
+---
+
+## 
+
+"Created April 29, 2022"
+
+## 
+
+"Marissa Silverberg"
+
+## 
+
+"WG 3 Livelihoods & Equity"
+
+## 
+
+"Income and Poverty"
+
+## 
+
+The data being used is from FAO 
+RuLIS: <https://www.fao.org/in-action/rural-livelihoods-dataset-rulis>, Eurostat: <https://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=lfsa_egan22d&lang=en>, and
+ILO: <https://ilostat.ilo.org/data/> and the specific indicator is: EMP_TEMP_SEX_EC2_NB_A.
+
+
+```{r}
+library(rworldmap)
+library(sf)
+library(plyr)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+worldbank <- read_csv("~/Desktop/worldbank.csv")
+fao <- read_csv("~/Desktop/FAOAgIncome.csv")
+euro <- read_csv("~/Desktop/EUROSTATAgIncome.csv")
+ilo <- read_csv("~/Desktop/ILOSTATAgIncome.csv")
+
+
+
+ilo <- ilo %>% select(country,Year,Value)
+fao <- fao %>% select(Country,Year,Thousands)
+euro <- euro %>% select(Year,Value)
+
+
+ilo <- na.omit(ilo)
+fao <- na.omit(fao)
+euro <- na.omit(euro)
+
+
+merged_line <- left_join(ilo,fao,by = c("country" = "Country", "Year" = "Year" ,"Value" = "Thousands"))
+View(merged_line)                         
+
+str(merged_line)
+```
+
+
+```{r}
+merged_line <- merged_line %>% filter(between(Year, 2012,2022))
+
+library(plotly)
+p <- ggplot(data=merged_line,
+            aes(x=Year, y=Value, colour=country)) +
+ geom_line()
+ggplotly(p)
+```
+
+
+```{r}
+map_world <- map_data("world")
+ggplot(map_world, aes(x = long, y = lat, group = group)) +
+ geom_polygon(fill="lightgray", colour = "white")
+
+
+ilo_1 <- ilo %>% filter(Year == 2019)
+fao_1 <- fao %>% filter(Year == 2019)
+euro_1 <- euro %>% filter(Year == 2019)
+
+euro_1$Value <- as.numeric(euro_1$Value)
+euro_1 <- na.omit(euro_1)
+
+merged_map_1 <- left_join(ilo_1,fao_1,by = c("country" = "Country", "Year" = "Year" ,"Value" = "Thousands"))
+merged_map_2 <- left_join(merged_map_1,euro_1,by = c("Year" = "Year" ,"Value" = "Value"))
+
+View(merged_map_2)
+View(map_world)
+
+
+merged_map_2 <- aggregate(Value ~ country, data=merged_map_2, FUN=sum)
+```
+
+
+```{r}
+map_world <- map_world[,-6]
+map_final <- left_join(map_world,merged_map_2,by = c("region" = "country"))
+map_final <- na.omit(map_final)
+View(map_final)
+
+view(map_world)
+```
+
+```{r}
+mapworld <- joinCountryData2Map(merged_map_2, joinCode = "NAME", nameJoinColumn = "country")
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+mapCountryData(mapworld, nameColumnToPlot="Value" , mapTitle = "Households with Significant Income from Agriculture (thousands), 2019", colourPalette = c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"), oceanCol = "gray", missingCountryCol = 'white')
+```
+
+```
+
+```{r}
+WorldMap_AgIncome <- joinCountryData2Map(map_world, 
+                                        joinCode = "NAME", 
+                                        nameJoinColumn = "region")
+par(mai=c(0,0,0.2,0), xaxs="i",yaxs="i")
+mapCountryData(WorldMap_AgIncome, 
+               nameColumnToPlot = "largest", 
+               mapTitle = "% Adequacy of benefits from social protection and labor programs, 2012-2019", 
+               colourPalette = c("#e0f3db",
+                                 "#ccebc5",
+                                 "#a8ddb5",
+                                 "#7bccc4",
+                                 "#4eb3d3",
+                                 "#2b8cbe",
+                                 "#0868ac" #,
+                                 #"#084081"
+                                 ), 
+               oceanCol = "gray", 
+               missingCountryCol = 'white')
+```
+
+
+```{r}
+view(WorldMap_AgIncome)
+
+ggplot(map_final, aes(map_id = region, fill = Value))+
+ geom_map(map = map_final,  color = "white")+
+ expand_limits(x = map_final$long, y = map_final$lat)+
+ scale_fill_viridis_c(option = "C")
+```
+
+
+```{r}
+
+```
+
+```{r}
+# Create dataframe across FAO/EURO/ILO
+
+#FAO_df <- FAO %>%
+ # select("wb_region", "2010", "2011", "2012", 
+         "2013", "2014", "2015", "2016", "2017",
+         "2018", "2019")
+
+
+
+
+
+EURO_df <- EURO %>%
+  select("ref_area", "2010", "2011", "2012", 
+         "2013", "2014", "2015", "2016", "2017",
+         "2018", "2019")
+
+ILO_df <- spcoverage %>%
+  select("wb_region", "2010", "2011", "2012", 
+         "2013", "2014", "2015", "2016", "2017",
+         "2018", "2019")
+merge 
+
+df1 <- data.frame(FAO, EURO, ILO)
+# Print top rows
+head(df1)
+
+target <- c("Households with significant income from agriculture")
+index <- FAO$seriesname %in% target
+df <- data[index, ]
+glimpse(df)
+```
+
+```{r}
+unique(df$Year)
+```
+
+
+```{r}
+world <- map_data("world") # set up world map
+```
+
+
+```{r}
+
+data(wrld_simpl)
+#wrld_simpl <- st_as_sf(wrld_simpl)
+#glimpse(wrld_simpl)
+```
+
+
+
+
+
+```{r}
+countries <- unique(df$country)
+unique(worldbank$Country)
+candidates_countries  <- worldbank$Country %in% countries
+
+
+df_countries <- worldbank[candidates_countries, ]
+df_countries
+```
+
+
+
+```{r}
+names(df)[names(df) == 'country'] <- 'Country'
+df
+```
+
+
+
+```{r}
+
+merge_df <- join(df, df_countries,
+     type = "inner")
+```
+
+
+```{r}
+glimpse(merge_df)
+```
+
+```{r}
+unique(merge_df$ISO3)
+```
+
+
+```{r}
+wrld_simpl$ISO3 <- as.character(wrld_simpl$ISO3)
+unique(wrld_simpl$ISO3)
+```
+
+```{r}
+names(merge_df)[names(merge_df) == 'country_code'] <- 'ISO3'
+```
+
+```{r}
+#wrld_simpl$ISO3 <- unlist(wrld_simpl$ISO3)
+#merge_df$ISO3 <- unlist(merge_df$ISO3)
+```
+
+
+
+```{r}
+names(merge_df)[names(merge_df) == 'value'] <- 'Households with significant income from agriculture'
+```
+
+
+```{r}
+
+#merge_df$Year <-year(merge_df$Year)
+#countries <-  merge(countries, df, by.x = "ISO3", by.y = "Country.Code")
+joinData <- joinCountryData2Map( merge_df,
+                                 joinCode = "NAME",
+                                 nameJoinColumn = "Country")
+```
+
+
+```{r}
+theMap <- mapCountryData( joinData, nameColumnToPlot="Households with significant income from agriculture", addLegend=FALSE )
+do.call( addMapLegend, c(theMap, legendWidth=1, legendMar = 2))
+```
+
+
+
+```{r}
+par(mai = c(0, 0, 0.2, 0), xaxs = "i", yaxs = "i")
+mapCountryData(joinData, mapTitle = "Households with significant income from agriculture", nameColumnToPlot = "Households with significant income from agriculture", catMethod = "categorical",colourPalette = "diverging", numCats = 5)
+```
+
+
+
+```{r}
+
+# Summarize medianGdpPercap within each wb_region within each year: by_year_continent
+by_year_continent <- merge_df %>%
+group_by(wb_region, Year)
+
+# Plot the change in  in each Households with significant income from agriculture region over time
+ggplot(by_year_continent, aes(x = Year, y = merge_df$`Households with significant income from agriculture`, color = wb_region)) +
+geom_line()+
+expand_limits(y = 0)
+```
+
+
+```{r}
+by_continent <- merge_df %>%
+  group_by(wb_region)
+# Create a bar plot showing medianGdp by continent
+
+ggplot(by_continent, aes(x = wb_region, y = merge_df$`Households with significant income from agriculture`)) + geom_col()
+```
+```{r}
+par(mai = c(0, 0, 0.2, 0), xaxs = "i", yaxs = "i")
+MAP<- mapCountryData(joinData, mapTitle = "Households with significant income from agriculture", nameColumnToPlot = "Households with significant income from agriculture", catMethod = "categorical",colourPalette = "diverging", numCats = 5)
+```
+
+
+
+```{r}
+library(viridis)
+my_color <- c('#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00') 
+
+pci_bar <- merge_df %>% 
+  ggplot(aes(x = reorder(merge_df$Country, merge_df$`Households with significant income from agriculture`), y = merge_df$`Households with significant income from agriculture`, fill= merge_df$wb_region )) +
+  geom_col(width = 0.7)+
+  theme_bw()+
+  xlab(NULL)+
+  ylab("Households with significant income from agriculture")+
+  scale_y_continuous(expand = c(0,0), limit = c(0,80))+ 
+  labs (title = "Households with significant income from agriculture, 2020",
+        caption = "https://www.fao.org/in-action/rural-livelihoods-dataset-rulis/data-application/data/by-indicator/en") +
+  scale_fill_viridis(discrete = TRUE) +
+  theme(legend.title = element_blank(),
+        axis.ticks = element_blank(),
+        plot.caption = element_text(face = "italic"))+
+  theme(axis.line = element_line(colour = "black"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        panel.background = element_blank())+ 
+  geom_text(aes(label = merge_df$`Households with significant income from agriculture`), size= 2.5, hjust = -0.2)+
+  coord_flip()
+
+pci_bar
+```
+
+
+```{r}
+#cowplot::plot_grid(MAP, NULL, pci_bar, ncol = 3,rel_widths = c(1, 0.3, 1.5))
+#ggpubr::ggarrange(MAP, pci_bar, widths = c(0.4, 0.6)) 
+
+```
+
+
+

@@ -1,0 +1,42 @@
+title: "Undernourishment Prevalence"
+author: "Deviana Dewi"
+date: '2022-05-26'
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd("C:/Users/mrdig/Desktop/SAIS/Food Systems/Indicator Codes/Prevalence of Undernourishment")
+Undernourishment <- read.csv("FAOSTAT_data_5-27-2022.csv",sep=",",header = TRUE)
+View (Undernourishment)
+```
+
+```{r}
+#Create new dataset only with select columns and only in recent year 
+Undernourishment1 <- subset(Undernourishment,select = c(Area, Year, Value))
+Undernourishment1 <- Undernourishment1 [which(Undernourishment1$Year=="2018-2020"),]
+View(Undernourishment1)
+```
+
+```{r}
+#Transforming non-numerical characters in the value  
+Undernourishment1$Value[Undernourishment1$Value == "<2.5"] <- 2.5
+Undernourishment1$Value[Undernourishment1$Value == ""] <- NA
+View(Undernourishment1)
+```
+
+
+```{r}
+library(rworldmap)
+#Create a world map that makes a connection between country (without the code so it will be "NAME") and the column country_name 
+mapworld <- joinCountryData2Map(Undernourishment1, joinCode = "NAME", nameJoinColumn = "Area")
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+map_under <- mapCountryData(mapworld, nameColumnToPlot = "Value", mapTitle = "Prevalence of Undernourishment (%), 3-Year Average 2018-2020", colourPalette = c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"), oceanCol = "gray", missingCountryCol = 'white',addLegend=FALSE) 
+do.call( addMapLegend, c( map_under
+                        , legendLabels="all"
+                        , legendWidth=0.5
+                        ))
+``` 

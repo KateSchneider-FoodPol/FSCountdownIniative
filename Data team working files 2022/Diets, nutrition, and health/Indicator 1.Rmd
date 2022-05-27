@@ -23,7 +23,6 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 View(unicefdata_for_whisker_plot_2)
-#Suriname and Palestine were not among World Bank countries. I kept them and assigned the regions as LAC and Middle East and North Africa, respectively.
 ```
 
 ```{r}

@@ -1,0 +1,117 @@
+ISO,Country,Income,Year,Estimate,highestyear
+AFG,Afghanistan,Low Income,2015,56.6053,2015
+ALB,Albania,Upper Middle Income,2017,64.60351,2017
+DZA,Algeria,Lower Middle Income,2019,89.13758,2019
+AGO,Angola,Lower Middle Income,2015,82.39832,2015
+ARM,Armenia,Upper Middle Income,2016,99.39403,2016
+AZE,Azerbaijan,Upper Middle Income,2013,93.42761,2013
+BGD,Bangladesh,Lower Middle Income,2019,76.01810999999999,2019
+BRB,Barbados,High Income,2012,36.75704,2012
+BLZ,Belize,Upper Middle Income,2015,84.92837,2015
+BEN,Benin,Lower Middle Income,2018,84.74957999999999,2018
+BTN,Bhutan,Lower Middle Income,2008,98.40000000000001,2008
+BOL,Bolivia (Plurinational State of),Lower Middle Income,2016,85.72483,2016
+BWA,Botswana,Upper Middle Income,2007,82.60277000000001,2007
+BRA,Brazil,Upper Middle Income,2007,98.43092,2007
+BGR,Bulgaria,Upper Middle Income,2012,91.90000000000001,2012
+BFA,Burkina Faso,Low Income,2010,92.06338,2010
+BDI,Burundi,Low Income,2016,89.37402,2016
+CPV,Cabo Verde,Lower Middle Income,2010,91.90000000000001,2010
+KHM,Cambodia,Lower Middle Income,2014,68.17115,2014
+CMR,Cameroon,Lower Middle Income,2018,90.65505,2018
+CAF,Central African Republic,Low Income,2019,75.95723,2019
+TCD,Chad,Low Income,2019,64.99263000000001,2019
+CHN,China,Upper Middle Income,2018,96.59999999999999,2018
+COM,Comoros,Lower Middle Income,2012,81.94718,2012
+COG,Congo,Lower Middle Income,2014,91.11533,2014
+CUB,Cuba,Upper Middle Income,2019,89.9141,2019
+CIV,Côte d'Ivoire,Lower Middle Income,2016,79.73453000000001,2016
+PRK,Democratic People's Republic of Korea,Low Income,2017,37.5,2017
+COD,Democratic Republic of the Congo,Low Income,2017,84.71048999999999,2017
+DJI,Djibouti,Lower Middle Income,2006,4.433991,2006
+DOM,Dominican Republic,Upper Middle Income,2006,31.90392,2006
+EGY,Egypt,Lower Middle Income,2014,88.7216,2014
+EGY,Egypt,Lower Middle Income,2014,92.5,2014
+GNQ,Equatorial Guinea,Upper Middle Income,2000,57.42252,2000
+ERI,Eritrea,Low Income,2010,86.24694,2010
+SWZ,Eswatini,Lower Middle Income,2014,90.35643,2014
+ETH,Ethiopia,Low Income,2016,85.61656000000001,2016
+GAB,Gabon,Upper Middle Income,2012,89.47009,2012
+GMB,Gambia,Low Income,2018,74.71388,2018
+GEO,Georgia,Upper Middle Income,2009,98.07293,2009
+GHA,Ghana,Lower Middle Income,2017,68.901,2017
+GTM,Guatemala,Upper Middle Income,2009,88.21973,2009
+GIN,Guinea,Low Income,2018,52.60202,2018
+GNB,Guinea-Bissau,Low Income,2019,32.6095,2019
+GUY,Guyana,Upper Middle Income,2014,42.76636,2014
+HTI,Haiti,Low Income,2017,7.536201,2017
+IND,India,Lower Middle Income,2018,92.40000000000001,2018
+IDN,Indonesia,Upper Middle Income,2013,91.90000000000001,2013
+IRN,Iran (Islamic Republic of),Upper Middle Income,2000,93.5,2000
+IRQ,Iraq,Upper Middle Income,2018,68.29789,2018
+JOR,Jordan,Upper Middle Income,2000,88.3,2000
+KAZ,Kazakhstan,Upper Middle Income,2015,94.37907,2015
+KEN,Kenya,Lower Middle Income,2014,94.62179999999999,2014
+KIR,Kiribati,Lower Middle Income,2018,76.90949999999999,2018
+KGZ,Kyrgyzstan,Lower Middle Income,2018,98.71352,2018
+LAO,Lao People's Democratic Republic,Lower Middle Income,2017,93.56681,2017
+LBN,Lebanon,Upper Middle Income,2004,95.26325,2004
+LSO,Lesotho,Lower Middle Income,2014,85.00854,2014
+LBR,Liberia,Low Income,2013,91.05264,2013
+LBY,Libya,Upper Middle Income,2014,69.90000000000001,2014
+MDG,Madagascar,Low Income,2009,68.37761999999999,2009
+MWI,Malawi,Low Income,2015,77.70068999999999,2015
+MYS,Malaysia,Upper Middle Income,2008,28.2,2008
+MDV,Maldives,Upper Middle Income,2008,96.7,2008
+MLI,Mali,Low Income,2018,89.35796000000001,2018
+MRT,Mauritania,Lower Middle Income,2018,25.2,2018
+MNG,Mongolia,Lower Middle Income,2018,75.07803,2018
+MAR,Morocco,Lower Middle Income,2006,43.3,2006
+MOZ,Mozambique,Low Income,2011,42.47649,2011
+MMR,Myanmar,Lower Middle Income,2018,85,2018
+NAM,Namibia,Upper Middle Income,2013,73.5919,2013
+NPL,Nepal,Lower Middle Income,2016,95.2145,2016
+NPL,Nepal,Lower Middle Income,2016,94.17455,2016
+NER,Niger,Low Income,2014,59.39897,2014
+NGA,Nigeria,Lower Middle Income,2018,93.2841,2018
+OMN,Oman,High Income,2014,87.7,2014
+PAK,Pakistan,Lower Middle Income,2011,68.60724999999999,2011
+PNG,Papua New Guinea,Lower Middle Income,2005,59.7,2005
+PRY,Paraguay,Upper Middle Income,2011,93.40000000000001,2011
+PER,Peru,Upper Middle Income,2019,90.82554,2019
+PHL,Philippines,Lower Middle Income,2018,57,2018
+QAT,Qatar,High Income,2012,99.40000000000001,2012
+MDA,Republic of Moldova,Lower Middle Income,2012,57.99453,2012
+RWA,Rwanda,Low Income,2015,90.48714,2015
+LCA,Saint Lucia,Upper Middle Income,2012,74.69386,2012
+WSM,Samoa,Upper Middle Income,2014,96.38840999999999,2014
+STP,Sao Tome and Principe,Lower Middle Income,2019,88.59815999999999,2019
+SAU,Saudi Arabia,High Income,2012,69.8,2012
+SEN,Senegal,Lower Middle Income,2018,65.10787999999999,2018
+SLE,Sierra Leone,Low Income,2019,82.16678,2019
+SLB,Solomon Islands,Lower Middle Income,2015,88.41403,2015
+SOM,Somalia,Low Income,2009,6.890488,2009
+ZAF,South Africa,Upper Middle Income,2016,91.1215,2016
+SSD,South Sudan,Low Income,2010,60.01921,2010
+LKA,Sri Lanka,Lower Middle Income,2016,96.90000000000001,2016
+LKA,Sri Lanka,Lower Middle Income,2016,91.57917999999999,2016
+PSE,State of Palestine,Lower Middle Income,2020,95.65204,2020
+SDN,Sudan,Low Income,2014,34.42158,2014
+SYR,Syrian Arab Republic,Low Income,2019,72,2019
+TJK,Tajikistan,Low Income,2017,91.37018999999999,2017
+THA,Thailand,Upper Middle Income,2019,84.12336999999999,2019
+TLS,Timor-Leste,Lower Middle Income,2016,83.49713,2016
+TGO,Togo,Low Income,2017,80.53485999999999,2017
+TTO,Trinidad and Tobago,High Income,2011,62.62206,2011
+TUR,Turkey,Upper Middle Income,2008,85.30695,2008
+TKM,Turkmenistan,Upper Middle Income,2015,99.74347,2015
+UGA,Uganda,Low Income,2016,91.2841,2016
+UKR,Ukraine,Lower Middle Income,2012,35.94638,2012
+TZA,United Republic of Tanzania,Lower Middle Income,2015,80.67937000000001,2015
+TZA,United Republic of Tanzania,Lower Middle Income,2015,75.97515,2015
+UZB,Uzbekistan,Lower Middle Income,2006,81.54693,2006
+VUT,Vanuatu,Lower Middle Income,2013,62.58825,2013
+VNM,Viet Nam,Lower Middle Income,2010,60.86906,2010
+YEM,Yemen,Low Income,2013,48.65348,2013
+ZMB,Zambia,Lower Middle Income,2013,88.43234,2013
+ZWE,Zimbabwe,Lower Middle Income,2019,83.78117,2019

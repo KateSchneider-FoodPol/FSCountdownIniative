@@ -1,0 +1,197 @@
+countryname,mandatoryfortification,voluntaryfortification,legislationscopetypes,Value
+Afghanistan,YES,NO,All,2
+Albania,YES,NO,All,2
+Algeria,YES,NO,All,2
+Andorra,UNKNOWN,UNKNOWN,, 
+Angola,YES,NO,All,2
+Antigua and Barbuda,YES,NO,Subset,2
+Argentina,YES,NO,Subset,2
+Armenia,YES,NO,Subset,2
+Australia,YES,NO,Subset,2
+Azerbaijan,YES,NO,All,2
+Bahamas,YES,NO,Subset,2
+Bahrain,YES,NO,Subset,2
+Bangladesh,YES,NO,All,2
+Barbados,YES,NO,Subset,2
+Belarus,YES,NO,Subset,2
+Belgium,NO,YES,,1
+Belize,YES,NO,Subset,2
+Benin,YES,NO,Subset,2
+Bhutan,NO,UNKNOWN,, 
+Bolivia,YES,NO,All,2
+Bosnia and Herzegovina,YES,NO,All,2
+Botswana,UNKNOWN,UNKNOWN,, 
+Brazil,YES,NO,Subset,2
+Brunei Darussalam,NO,YES,,1
+Bulgaria,YES,NO,All,2
+Burkina Faso,YES,,,2
+Burundi,YES,NO,All,2
+Cabo Verde,YES,NO,Subset,2
+Cambodia,YES,NO,All,2
+Cameroon,YES,NO,Subset,2
+Canada,YES,NO,All,2
+Central African Republic,YES,NO,All,2
+Chad,YES,NO,All,2
+Chile,YES,NO,All,2
+China,YES,NO,All,2
+Colombia,YES,NO,All,2
+Comoros,UNKNOWN,UNKNOWN,, 
+Congo,YES,NO,All,2
+Costa Rica,YES,NO,Subset,2
+Cote d'Ivoire,YES,NO,All,2
+Croatia,YES,NO,Subset,2
+Cuba,YES,NO,Subset,2
+Cyprus,NO,UNKNOWN,, 
+Czech Republic,NO,YES,,1
+Democratic Republic of the Congo,YES,NO,All,2
+Denmark,YES,NO,Subset,2
+Djibouti,YES,NO,All,2
+Dominica,YES,NO,Subset,2
+Dominican Republic,YES,NO,Subset,2
+Ecuador,YES,NO,All,2
+Egypt,YES,NO,All,2
+El Salvador,YES,NO,Subset,2
+Equatorial Guinea,NO,UNKNOWN,, 
+Eritrea,UNKNOWN,UNKNOWN,, 
+Estonia,NO,UNKNOWN,, 
+Eswatini,YES,NO,Subset,2
+Ethiopia,YES,NO,All,2
+Fiji,YES,NO,Subset,2
+Finland,NO,YES,,1
+France,NO,YES,,1
+Gabon,YES,NO,All,2
+Gambia,YES,NO,All,2
+Georgia,YES,NO,Subset,2
+Germany,NO,YES,,1
+Ghana,YES,NO,All,2
+Greece,NO,YES,,1
+Grenada,YES,NO,Subset,2
+Guatemala,YES,NO,All,2
+Guinea,YES,NO,All,2
+Guinea-Bissau,YES,NO,All,2
+Guyana,YES,NO,Subset,2
+Haiti,YES,NO,All,2
+Honduras,YES,NO,Subset,2
+Hungary,YES,NO,Subset,2
+Iceland,NO,UNKNOWN,, 
+India,YES,,,2
+Indonesia,YES,NO,All,2
+Iran,YES,NO,All,2
+Iraq,NO,YES,,1
+Ireland,NO,UNKNOWN,, 
+Israel,NO,UNKNOWN,, 
+Italy,YES,NO,Subset,2
+Jamaica,YES,NO,Subset,2
+Japan,NO,UNKNOWN,, 
+Jordan,YES,NO,Subset,2
+Kazakhstan,YES,NO,Subset,2
+Kenya,YES,NO,All,2
+Kiribati,YES,NO,Subset,2
+Kosovo,YES,NO,All,2
+Kuwait,YES,NO,Subset,2
+Kyrgyzstan,YES,NO,All,2
+Lao PDR,YES,NO,All,2
+Latvia,NO,YES,,1
+Lebanon,YES,NO,Subset,2
+Lesotho,YES,NO,All,2
+Liberia,YES,NO,All,2
+Libya,UNKNOWN,UNKNOWN,, 
+Liechtenstein,UNKNOWN,UNKNOWN,, 
+Lithuania,YES,NO,All,2
+Luxembourg,UNKNOWN,UNKNOWN,, 
+Macedonia,YES,NO,All,2
+Madagascar,YES,NO,All,2
+Malawi,YES,NO,All,2
+Malaysia,YES,NO,Subset,2
+Maldives,NO,UNKNOWN,, 
+Mali,YES,NO,Subset,2
+Malta,UNKNOWN,UNKNOWN,, 
+Marshall Islands,NO,UNKNOWN,, 
+Mauritania,YES,NO,All,2
+Mauritius,UNKNOWN,UNKNOWN,, 
+Mexico,YES,,,2
+Micronesia,NO,UNKNOWN,, 
+Moldova,YES,NO,All,2
+Monaco,UNKNOWN,UNKNOWN,, 
+Mongolia,YES,NO,All,2
+Mongolia,YES,NO,Subset,2
+Montenegro,UNKNOWN,UNKNOWN,, 
+Morocco,YES,NO,All,2
+Mozambique,YES,NO,All,2
+Myanmar,YES,NO,All,2
+Namibia,YES,NO,All,2
+Nauru,NO,UNKNOWN,, 
+Nepal,YES,NO,All,2
+Netherlands,NO,YES,,1
+New Zealand,YES,,,2
+Nicaragua,YES,NO,Subset,2
+Niger,YES,,,2
+Nigeria,YES,NO,All,2
+North Korea,NO,UNKNOWN,, 
+Norway,NO,YES,,1
+Oman,YES,NO,All,2
+Pakistan,YES,NO,All,2
+Palau,NO,UNKNOWN,, 
+Palestine,YES,NO,All,2
+Panama,YES,NO,All,2
+Papua New Guinea,YES,NO,All,2
+Paraguay,YES,NO,All,2
+Peru,YES,NO,All,2
+Philippines,YES,NO,All,2
+Poland,YES,NO,All,2
+Portugal,NO,YES,,1
+Qatar,YES,NO,Subset,2
+Romania,YES,NO,All,2
+Russia,NO,YES,,1
+Rwanda,YES,,,2
+Saint Kitts and Nevis,YES,NO,Subset,2
+Saint Lucia,YES,NO,Subset,2
+Saint Vincent and the Grenadines,YES,NO,Subset,2
+Samoa,YES,NO,All,2
+San Marino,UNKNOWN,UNKNOWN,, 
+Sao Tome and Principe,YES,NO,All,2
+Saudi Arabia,YES,NO,Subset,2
+Senegal,YES,NO,Subset,2
+Serbia,YES,NO,All,2
+Seychelles,UNKNOWN,UNKNOWN,, 
+Sierra Leone,YES,NO,Subset,2
+Singapore,NO,YES,,1
+Slovakia,YES,NO,All,2
+Slovenia,YES,NO,Subset,2
+Solomon Islands,YES,NO,Subset,2
+Somalia,YES,NO,All,2
+South Africa,YES,NO,Subset,2
+South Korea,NO,UNKNOWN,, 
+South Sudan,NO,YES,,1
+Spain,NO,YES,,1
+Sri Lanka,YES,NO,All,2
+Sudan,YES,NO,All,2
+Suriname,YES,NO,Subset,2
+Sweden,NO,YES,,1
+Switzerland,NO,YES,,1
+Syria,UNKNOWN,UNKNOWN,, 
+Tajikistan,YES,NO,All,2
+Tanzania,YES,NO,All,2
+Thailand,YES,NO,Subset,2
+Timor-Leste,NO,UNKNOWN,, 
+Togo,YES,NO,All,2
+Tonga,NO,UNKNOWN,, 
+Trinidad and Tobago,YES,NO,All,2
+Tunisia,YES,NO,All,2
+Turkey,YES,NO,Subset,2
+Turkmenistan,YES,NO,All,2
+Tuvalu,NO,UNKNOWN,, 
+Uganda,YES,NO,All,2
+Ukraine,NO,YES,,1
+United Arab Emirates,YES,NO,Subset,2
+United Kingdom,YES,NO,Subset,2
+United States of America,YES,NO,All,2
+Uruguay,YES,NO,Subset,2
+Uzbekistan,YES,NO,Subset,2
+Vanuatu,NO,UNKNOWN,, 
+Vatican City,UNKNOWN,UNKNOWN,, 
+Venezuela,YES,NO,Subset,2
+Viet Nam,YES,NO,All,2
+Yemen,YES,NO,All,2
+Zambia,YES,NO,All,2
+Zimbabwe,YES,NO,Subset,2

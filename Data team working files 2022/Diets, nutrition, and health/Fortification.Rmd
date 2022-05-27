@@ -1,0 +1,26 @@
+---
+title: "Fortification"
+author: "Deviana Dewi"
+date: '2022-05-27'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r}
+setwd("~/Desktop")
+Fortification <- read.csv("fortification_revised.csv",sep=",",header = TRUE)
+View (Fortification)
+```
+```{r}
+library(rworldmap)
+#Create a world map that makes a connection between country (without the code so it will be "NAME") and the column country_name 
+WorldMap_Fortification <- joinCountryData2Map(Fortification, joinCode = "NAME", nameJoinColumn = "countryname")
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+mapCountryData(WorldMap_Fortification, nameColumnToPlot = "Value", mapTitle = "Fortification Legislation", colourPalette = c("#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"), oceanCol = "gray", missingCountryCol = 'white') 
+```

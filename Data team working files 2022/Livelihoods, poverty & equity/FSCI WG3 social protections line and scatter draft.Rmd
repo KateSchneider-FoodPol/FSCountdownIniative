@@ -1,0 +1,89 @@
+---
+title: "Median annual coverage of any social protection and labor program 2010-2019"
+date: "April 22, 2022"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+##
+"Created April 5, 2022"
+
+## 
+"Marissa Silverberg"
+
+##
+"WG 3 Livelihoods & Equity"
+
+##
+"Social Protections"
+
+##
+
+The data being used is from the World Bank databank at this link: https://data.worldbank.org/indicator/per_allsp.cov_pop_tot
+
+```{r}
+library(tidyverse)
+library(naniar)
+library(ggplot2)
+```
+
+## Data Import 
+
+```{r}
+
+#data manipulation
+
+spcoverage <- read_csv("~/Desktop/spcoverage.csv")
+view(spcoverage)
+
+median_df <- spcoverage %>%
+  select("wb_region", "2010", "2011", "2012", 
+         "2013", "2014", "2015", "2016", "2017",
+         "2018", "2019")
+
+view(median_df)
+
+median_region <- median_df %>% 
+  pivot_longer(cols = !c(wb_region), names_to = "year", values_to = "value") %>% 
+  group_by(wb_region, year) 
+
+view(median_region)
+
+
+ 
+```
+
+```{r}
+
+#scatterplot
+
+ggplot(median_region) +
+  aes(x = value, y = year, colour = wb_region) +
+  geom_point(shape = "circle", size = 1.5) +
+  scale_color_hue(direction = 1) +
+  theme_minimal()
+
+#linegraph
+
+
+ggplot(median_region, aes(x = year, y = value, group = wb_region, label = wb_region, color=wb_region)) + geom_line() + theme_light()+ 
+  scale_y_continuous(limits = c(0, NA))
+  labs(x = "Year", y = "% Social Protection Coverage")  +
+  ggtitle("% Social Protection Coverage, 2010-2019") 
+
+
+
+
+
+
+```
+
+
+```{r}
+sessionInfo()
+```
+
+
+

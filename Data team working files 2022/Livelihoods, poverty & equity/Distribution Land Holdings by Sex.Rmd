@@ -1,0 +1,75 @@
+---
+title: "Untitled"
+output: html_document
+date: '2022-06-16'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#Prep necessary libraries 
+library(gt)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(countrycode)
+library(rworldmap)
+
+AgHold <- read_csv("~/Desktop/DistAgHold_Sex.csv")
+view(AgHold)
+
+```
+
+```{r}
+#Merge the dataset with World Bank classifications
+
+WorldBank <- read_csv("~/Downloads/World Bank Classifications CSV FILE.csv")
+
+glimpse(WorldBank)
+WorldBank$Country <- as.factor(WorldBank$Country)
+WorldBank$country_code <- as.factor(WorldBank$country_code)
+WorldBank$Income <- as.factor(WorldBank$Income)
+WorldBank$incgrp_code <- as.factor(WorldBank$incgrp_code)
+WorldBank$region_code <- as.factor(WorldBank$region_code)
+WorldBank$wb_region <- as.factor(WorldBank$wb_region)
+WorldBank$chk_ifmatchonname <- as.factor(WorldBank$chk_ifmatchonname)
+glimpse(WorldBank)
+
+WBMerge <- merge(AgHold, WorldBank, by = "Country")
+view(WBMerge)
+```
+
+```{r}
+#experimental code for bar chart 
+library(plotly)
+
+g <- ggplot(WBMerge, aes(Female_inpercent))  
+p <-  g + geom_bar(aes(fill = incgrp))
+
+ggplotly(p)
+
+
+df <- data.frame(group = incgrp,
+                 count = Female_inpercent)
+
+ggplot(df, aes(x = incgrp)) + geom_bar()
+```
+
+```{r}
+#This is the code that is done and ready to use
+
+FemaleBox <- WBMerge %>% ggplot(aes(Income,Female_inpercent)) + geom_boxplot() + ylim(0,100)
+
+MaleBox <- WBMerge %>% ggplot(aes(Income, Male_inpercent)) + geom_boxplot() + ylim(0,100)
+
+FemaleBox <- FemaleBox + labs(title = "Distribution of land holdings by sex (Female %)")
+MaleBox <- MaleBox + labs(title = "Distribution of land holdings by sex (Male %)")
+
+FemaleBox
+MaleBox
+
+```
+

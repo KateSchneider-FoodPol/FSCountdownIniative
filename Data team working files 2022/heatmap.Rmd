@@ -1,0 +1,83 @@
+---
+title: "heatmap"
+author: "Zhongyun Zhang"
+date: "6/29/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#loading dataset mtcars
+install.packages("lattice")
+library(lattice)
+ 
+data("mtcars")
+ 
+data <- mtcars
+head(mtcars)
+```
+
+```{r}
+# create a coorelation matrix of the data
+# rounding to 2 decimal places
+corr_mat <- round(cor(data),2) 
+head(corr_mat)
+```
+
+```{r}
+# Install and load reshape2 package
+install.packages("reshape2")
+library(reshape2)
+ 
+# creating correlation matrix
+corr_mat <- round(cor(data),2)
+ 
+# reduce the size of correlation matrix
+melted_corr_mat <- melt(corr_mat)
+# head(melted_corr_mat)
+ 
+# plotting the correlation heatmap
+library(ggplot2)
+ggplot(data = melted_corr_mat, aes(x=Var1, y=Var2,
+                                   fill=value)) +
+geom_tile()
+
+```
+
+```{r}
+# Install and load reshape2 package
+install.packages("reshape2")
+library(reshape2)
+ 
+# creating correlation matrix
+corr_mat <- round(cor(data),2)
+ 
+# reduce the size of correlation matrix
+melted_corr_mat <- melt(corr_mat)
+head(melted_corr_mat)
+ 
+# plotting the correlation heatmap
+library(ggplot2)
+ggplot(data = melted_corr_mat, aes(x=Var1, y=Var2,
+                                   fill=value)) +
+geom_tile() +
+geom_text(aes(Var2, Var1, label = value),
+          color = "black", size = 4)
+
+```
+```{r}
+#correlation heatmap using ggcorplot
+# load and install ggcorplot
+install.packages("ggcorplot")
+library(ggcorrplot)
+ 
+# plotting corr heatmap
+ggcorrplot::ggcorrplot(cor(data))
+
+```
+
+
+

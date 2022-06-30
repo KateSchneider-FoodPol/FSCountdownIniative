@@ -1,0 +1,174 @@
+---
+title: "june20"
+author: "Zhongyun Zhang"
+date: "6/20/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Correation Matrix
+```{r}
+#install libraries
+
+#install.packages("ggplot2")
+library(ggplot2)
+#install.packages("corrplot")
+library(corrplot)
+#install.packages("corrgram")
+library(corrgram)
+#install.packages("ggcorrplot")
+library(ggcorrplot)
+
+install.packages("survival")
+install.packages("lattice")
+install.packages("Hmisc")
+library(survival)
+library(lattice)
+library(Hmisc)
+```
+
+```{r}
+#import dataset mtcars
+head(mtcars)
+```
+
+
+```{r}
+#correlation heatmap
+M <- cor(mtcars)
+corrplot(M,method = "color")
+```
+
+```{r}
+corrgram(M)
+```
+
+```{r}
+ggcorrplot(M)
+```
+
+```{r}
+library(knitr) 
+library(tidyverse, warn.conflict=F)
+```
+
+```{r}
+mtcars_cor <- rcorr(as.matrix(mtcars))
+```
+
+```{r}
+#The correlation coefficients
+data.frame(mtcars_cor$r) %>% head() %>% kable()
+```
+
+```{r}
+#The number of observations, n. There are no missing data in the mtcars data set so there are 32 pairs used for all correlations.
+data.frame(mtcars_cor$n) %>% head(n=3) %>% kable()
+```
+
+```{r}
+cors <- function(df) { 
+   # turn all three matrices (r, n, and P into a data frame)
+   M <- Hmisc::rcorr(as.matrix(df))
+   # return the three data frames in a list return(Mdf)
+   Mdf <- map(M, ~data.frame(.x))
+  }
+```
+
+```{r}
+#correlations between all our variables
+cors(mtcars) %>% first() %>% head() %>% kable()
+```
+
+```{r}
+#we need to move the rownames to their own column 
+cors(mtcars) %>% 
+   map(~rownames_to_column(.x, var="measure1")) %>% first() %>% head() %>% kable()
+```
+
+```{r}
+# turn move of the columns to a single column called measure2
+cors(mtcars) %>%
+ map(~rownames_to_column(.x, var="measure1")) %>%
+ # format each data set (r,P,n) long
+ map(~pivot_longer(.x, -measure1, "measure2")) %>%
+ # look at the first element of the list (r)
+ first() %>%
+ head() %>%
+ kable()
+```
+
+```{r}
+#turn our correlations into a very long data frame with all the rows from r, then n, then P.
+cors(mtcars) %>%
+ map(~rownames_to_column(.x, var="measure1")) %>%
+ # format each data set (r,P,n) long 
+ map(~pivot_longer(.x, -measure1, "measure2")) %>%
+ # merge our three list elements by binding the rows
+ bind_rows(.id = "id") %>%
+ head() %>%
+ kable()
+```
+
+```{r}
+# we'll need to have r, n, and P as their own column
+cors(mtcars) %>%
+ map(~rownames_to_column(.x, var="measure1")) %>%
+ # format each data set (r,P,n) long 
+ map(~pivot_longer(.x, -measure1, "measure2")) %>%
+ # merge our three list elements by binding the rows
+ bind_rows(.id = "id") %>%
+ pivot_wider(names_from = id, values_from = value) %>%
+ head() %>%
+ kable()
+```
+
+```{r}
+#we can add a few columns that will potentially be useful later for making our correlation plots more informative. Add columns that tell us whether the p-value was less than 0.05, and if so, give us back 1) the p-value and 2) the correlation coefficient
+cors(mtcars) %>%
+ map(~rownames_to_column(.x, var="measure1")) %>%
+ # format each data set (r,P,n) long 
+ map(~pivot_longer(.x, -measure1, "measure2")) %>%
+ # merge our three list elements by binding the rows
+ bind_rows(.id = "id") %>%
+ pivot_wider(names_from = id, values_from = value) %>%
+ mutate(sig_p = ifelse(P < .05, T, F), p_if_sig = ifelse(P <.05, P, NA), r_if_sig = ifelse(r <.05, r, NA)) %>% 
+ head() %>%
+ kable()
+```
+
+
+```{r}
+#turned my formatted correlations into a function
+formatted_cors <- function(df){
+ cors(df) %>%
+ map(~rownames_to_column(.x, var="measure1")) %>%
+ map(~pivot_longer(.x, -measure1, "measure2")) %>% 
+ bind_rows(.id = "id") %>%
+ pivot_wider(names_from = id, values_from = value) %>%
+ mutate(sig_p = ifelse(P < .05, T, F), p_if_sig = ifelse(P <.05, P, NA), r_if_sig = ifelse(P <.05, r, NA)) 
+}
+```
+
+```{r}
+# test if the function works
+formatted_cors(mtcars) %>% head() %>% kable()
+
+```
+
+```{r}
+# map the correlation r to the fill aesthetic, and add a tile as the geometry
+formatted_cors(mtcars) %>%
+ ggplot(aes(x = measure1, y = measure2, fill = r)) +
+ geom_tile()
+```
+
+
+
+
+
+
+

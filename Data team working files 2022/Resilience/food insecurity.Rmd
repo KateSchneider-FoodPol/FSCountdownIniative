@@ -1,0 +1,87 @@
+---
+title: "food insecurity"
+author: "Zhongyun Zhang"
+date: "6/9/2022"
+output: html_document
+---
+
+
+```{r}
+#install.packages("dplyr")
+library(dplyr)
+#install.packages("ggplot2")
+library(ggplot2)
+```
+
+```{r}
+#import data
+setwd("~/Desktop/FSCI")
+data <- read.csv("food insecurity.csv",sep = ",",header = TRUE)
+worldbank <- read.csv("worldbank.csv",sep = ",",header = TRUE)
+#View(data)
+```
+
+
+```{r}
+total <- merge(data,worldbank, by = "Country")
+#total["Value"][total["Value"] == "<2.5"] <- "2.5"
+View(total)
+```
+
+```{r}
+total$Value <- as.numeric(total$Value)
+total$Value <- (total$Value)^(-1)
+View(total)
+```
+
+```{r}
+total <- na.omit(total)
+byregion_mean <- aggregate(x=total$Value,by = list(total$wb_region,total$Year.Code), FUN = mean)
+byregion_mean
+```
+
+```{r}
+byregion_median <- aggregate(x=total$Value,by = list(total$wb_region,total$Year.Code), FUN = median)
+byregion_median
+```
+```{r}
+byregion_sd <- aggregate(x=total$Value,by = list(total$wb_region,total$Year.Code), FUN = sd)
+byregion_sd
+```
+
+
+```{r}
+
+ggplot(byregion_mean, aes(x = Group.2, y = x, group = Group.1, label = Group.1, color=Group.1)) + geom_line() + theme_light()+ expand_limits(x = c(20140000,20180000)) + 
+  labs(x = "Year", y = "Region")  +
+  ggtitle("Mean Value of Food Insecurity Group by Region") 
+```
+
+```{r}
+data <- subset(data, Year.Code=="20182020")
+data$Value <- as.numeric(data$Value)
+data$Value <- (data$Value)^(-1)
+View(data)
+```
+
+```{r}
+library(rworldmap)
+#corresponding country with dataset of countries in order to plot world map
+mapworld <- joinCountryData2Map(data
+                           , joinCode = "NAME"
+                           , nameJoinColumn = "Country")
+
+```
+
+
+```{r}
+#plot world map for 2018 to 2022
+# organge to blue color band, three color band
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+
+map_2018 <- mapCountryData(mapworld, nameColumnToPlot="Value",mapTitle = "Food Insecurity with Average of 2018 to 2020", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+
+do.call( addMapLegend, c( map_2018
+                        , legendLabels="all"
+                        ))
+```

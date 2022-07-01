@@ -1,0 +1,22 @@
+---
+title: "Unemployment"
+author: "Zhongyun Zhang"
+date: "5/26/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#import data
+setwd("~/Desktop/FSCI")
+data <- read.csv("Unemployment.csv",sep = ",",header = TRUE)
+View(data)
+```
+
+```{r}
+data <- data[data$ classif1== "AGE_YTHADULT_Y15-24",]
+View(data)
+```

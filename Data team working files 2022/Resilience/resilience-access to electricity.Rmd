@@ -1,0 +1,104 @@
+---
+title: "Resilience-Access to electricity"
+author: "Zhongyun Zhang"
+date: "5/5/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages("dplyr")
+library(dplyr)
+#install.packages("ggplot2")
+library(ggplot2)
+```
+
+```{r}
+setwd("~/Desktop/FSCI/resilience")
+data <- read.csv("access_to_electricity.csv",sep = ",",header = TRUE)
+setwd("~/Desktop/FSCI/")
+worldbank <- read.csv("worldbank.csv",sep = ",",header = TRUE)
+View(data)
+```
+
+
+```{r}
+# total number of 214 data
+total=merge(data,worldbank,by = "Country")
+#total <- na.omit(total)
+#View(total)
+```
+
+```{r}
+total %>%
+  # recode empty strings "" by NAs
+  na_if("") %>%
+  # remove NAs
+  na.omit
+total <- na.omit(total)
+total <- total[-c(206), ]
+#View(total)
+#American Samoa
+#Venezuela, RB does not have income group manually removed, 211 left
+```
+
+
+```{r}
+total$incgrp <- with(total, reorder(incgrp, mean,na.rm=T))
+
+box_income <- total %>% ggplot(aes(incgrp,X2020)) + ylab("Access to electricity score in 2020") + xlab("income group")+ geom_boxplot()+geom_point() + coord_cartesian(ylim = c(0, 150))
+box_income
+```
+
+```{r}
+box_region <- total %>% ggplot(aes(wb_region,X2020)) + ylab("Access to electricity by region in 2020") +xlab("Region")+ geom_boxplot()+geom_point() + coord_cartesian(ylim = c(0, 120))
+box_region
+```
+
+
+
+```{r}
+byregion_2011 <- aggregate(x=total$X2011,by = list(total$wb_region), FUN = mean)
+byregion_2012 <- aggregate(x=total$X2012,by = list(total$wb_region), FUN = mean)
+byregion_2013 <- aggregate(x=total$X2013,by = list(total$wb_region), FUN = mean)
+byregion_2014 <- aggregate(x=total$X2014,by = list(total$wb_region), FUN = mean)
+byregion_2015 <- aggregate(x=total$X2015,by = list(total$wb_region), FUN = mean)
+byregion_2016 <- aggregate(x=total$X2016,by = list(total$wb_region), FUN = mean)
+byregion_2017 <- aggregate(x=total$X2017,by = list(total$wb_region), FUN = mean)
+byregion_2018 <- aggregate(x=total$X2018,by = list(total$wb_region), FUN = mean)
+byregion_2019 <- aggregate(x=total$X2019,by = list(total$wb_region), FUN = mean)
+byregion_2020 <- aggregate(x=total$X2020,by = list(total$wb_region), FUN = mean)
+byregion <- rbind(byregion_2011,byregion_2012,byregion_2013,byregion_2014,byregion_2015,byregion_2016,byregion_2017,byregion_2018,byregion_2019,byregion_2020)
+byregion$years <- c(2011,2011,2011,2011,2011,2011,2011,2012,2012,2012,2012,2012,2012,2012,2013,2013,2013,2013,2013,2013,2013,2014,2014,2014,2014,2014,2014,2014,2015,2015,2015,2015,2015,2015,2015,2016,2016,2016,2016,2016,2016,2016,2017,2017,2017,2017,2017,2017,2017,2018,2018,2018,2018,2018,2018,2018,2019,2019,2019,2019,2019,2019,2019,2020,2020,2020,2020,2020,2020,2020)
+#View(byregion)
+```
+
+
+```{r}
+ggplot(byregion, aes(x = years, y = x, group = Group.1, label = Group.1, color=Group.1)) + geom_line() + theme_light()+ expand_limits(x = c(2010,2020)) +
+  labs(x = "Year", y = "region")  +
+  ggtitle("Access to electricity (% of population) group by region") 
+```
+
+```{r}
+library(rworldmap)
+mapworld <- joinCountryData2Map(data
+                           , joinCode = "ISO3"
+                           , nameJoinColumn = "Country.Code")
+
+```
+
+
+```{r}
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+
+map_2020 <- mapCountryData(mapworld, nameColumnToPlot="X2020",mapTitle = "Access to electricity (% of population) group by region in 2020", colourPalette = c("#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+
+do.call( addMapLegend, c( map_2020
+                        , legendLabels="all"
+                        ))
+```
+

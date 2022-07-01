@@ -1,0 +1,77 @@
+---
+title: "social capital legatum"
+author: "Zhongyun Zhang"
+date: "5/12/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd("~/Desktop/FSCI/resilience")
+data <- read.csv("social_capital_legatum.csv",sep = ",",header = TRUE)
+setwd("~/Desktop/FSCI")
+worldbank <- read.csv("worldbank.csv",sep = ",",header = TRUE)
+View(data)
+```
+
+```{r}
+#total= merge(data,worldbank,by = "Country")
+#total <- na.omit(total)
+```
+
+```{r}
+median_region <- total %>% 
+  group_by(wb_region) %>% 
+  summarize_at(vars("X2017","X2018","X2019"),median)
+median_region
+
+```
+
+```{r}
+#plot world map for 2018 to 2022
+# organge to blue color band, three color band
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+
+map_2021 <- mapCountryData(mapworld, nameColumnToPlot="rank_2021",mapTitle = "Social Capital Legatum in", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+
+do.call( addMapLegend, c( map_2018
+                        , legendLabels="all"
+                        ))
+```
+
+
+
+
+
+```{r}
+#Coverage
+library("tidyverse")
+library("dplyr")
+library(rworldmap)
+#Global map of the country coverage of the Social capital Legatum Prosperity Index.
+data$coverage<-ifelse(data$X2019=="NA",2,1)                      # Duplicate first column
+data$coverage[is.na(data$coverage)] <- 0  
+data <- data %>% filter(data$Subindicator.Type == "Rank")
+View(data)
+```
+
+```{r}
+mapworld <- joinCountryData2Map(data
+                           , joinCode = "NAME"
+                           , nameJoinColumn = "Country")
+```
+
+
+```{r}
+# organge to blue color band, three color band
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+map_2019 <- mapCountryData(mapworld, nameColumnToPlot="coverage",mapTitle = "Social Captial Legatum from 2019", colourPalette = c("#7bccc4","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+do.call( addMapLegend, c( map_2019
+                        , legendLabels="all"
+                        , legendWidth=0.5
+                        ))
+
+```

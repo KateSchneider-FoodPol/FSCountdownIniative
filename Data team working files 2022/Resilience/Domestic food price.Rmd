@@ -1,0 +1,71 @@
+---
+title: "domestic food"
+author: "Zhongyun Zhang"
+date: "5/24/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(ggplot2)
+#import data
+setwd("~/Desktop/FSCI")
+data <- read.csv("domestic-food.csv",sep = ",",header = TRUE)
+worldbank <- read.csv("worldbank.csv",sep = ",",header = TRUE)
+View(data)
+```
+
+```{r}
+total <- merge(data,worldbank,by = "Country")
+byregion <- aggregate(x=total$Value,by = list(total$wb_region,total$Year), FUN = mean)
+View(byregion)
+```
+
+```{r}
+
+ggplot(byregion, aes(x = Group.2, y = x, group = Group.1, label = Group.1, color=Group.1)) + geom_line() + theme_light()+ expand_limits(x = c(2000,2015)) +
+  labs(x = "Year", y = "Region")  +
+  ggtitle("Domestic food price volatility index") 
+```
+
+```{r}
+byincome <- aggregate(x=total$Value,by = list(total$incgrp,total$Year), FUN = mean)
+View(byincome)
+```
+
+```{r}
+ggplot(byincome, aes(x = Group.2, y = x, group = Group.1, label = Group.1, color=Group.1)) + geom_line() + theme_light()+ expand_limits(x = c(2000,2015)) +
+  labs(x = "Year", y = "Income Group")  +
+  ggtitle("Domestic food price volatility index") 
+
+```
+
+```{r}
+data <- subset(data, Year=="2014")
+View(data)
+```
+
+```{r}
+library(rworldmap)
+mapworld <- joinCountryData2Map(data
+                           , joinCode = "ISO3"
+                           , nameJoinColumn = "Code")
+
+```
+
+```{r}
+
+#plot world map for 2018 to 2022
+# organge to blue color band, three color band
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+
+map_2014 <- mapCountryData(mapworld, nameColumnToPlot="Value",mapTitle = "Domestic Food Price Volatility Index in 2014", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+
+do.call( addMapLegend, c( map_2014
+                        , legendLabels="all"
+                        ))
+```
+

@@ -1,0 +1,72 @@
+---
+title: "People affected indicator"
+author: "Zhongyun Zhang"
+date: "5/19/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages("dplyr")
+library(dplyr)
+#install.packages("ggplot2")
+library(ggplot2)
+library(rworldmap)
+```
+
+```{r}
+#import data
+setwd("~/Desktop/FSCI")
+data <- read.csv("People affected indicator.csv",sep = ",",header = TRUE)
+worldbank <- read.csv("worldbank.csv",sep = ",",header = TRUE)
+View(data)
+```
+
+```{r}
+#clear for missing values, total 82 data, left with 75 data
+# Azerbaijan, Algeria, India, Morocco, Mexico, Nicaragua, Tunisia
+data <- na.omit(data)
+View(data)
+```
+
+```{r}
+library(rworldmap)
+x_mean <- country2Region(data
+           ,nameDataColumn="Index"
+           ,joinCode="ADMIN"
+           ,nameJoinColumn="Country"
+           ,regionType="Stern"
+           ,FUN="mean")
+x_mean
+```
+```{r}
+total <- merge(data,worldbank, by = "Country")
+```
+
+```{r}
+box_affected <- total %>% ggplot(aes(wb_region,Index)) + ylab("People affected index in 2022") + xlab("Region")+ geom_boxplot()+geom_point() + coord_cartesian(ylim = c(0, 5))
+box_affected
+```
+
+```{r}
+#corresponding country with dataset of countries in order to plot world map
+mapworld <- joinCountryData2Map(data
+                           , joinCode = "NAME"
+                           , nameJoinColumn = "ISO3")
+
+```
+
+```{r}
+#plot world map for 2018 to 2022
+# organge to blue color band, three color band
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+map <- mapCountryData(mapworld, nameColumnToPlot="Index",mapTitle = "People affected index in 2022", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+do.call( addMapLegend, c( map
+                        , legendLabels="all"
+                        , legendWidth=0.5
+                        ))
+```
+

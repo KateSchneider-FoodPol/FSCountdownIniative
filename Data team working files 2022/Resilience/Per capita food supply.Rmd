@@ -1,0 +1,73 @@
+---
+title: "per capita food supply"
+author: "Zhongyun Zhang"
+date: "5/24/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd("~/Desktop/FSCI")
+data <- read.csv("per capita food supply.csv",sep = ",",header = TRUE)
+worldbank <- read.csv("worldbank.csv",sep = ",",header = TRUE)
+View(data)
+```
+
+```{r}
+total <- merge(data,worldbank, by = "Country")
+#View(total)
+byregion <- aggregate(x=total$Value,by = list(total$wb_region,total$Year), FUN = mean)
+View(byregion)
+```
+
+```{r}
+ggplot(byregion, aes(x = Group.2, y = x, group = Group.1, label = Group.1, color=Group.1)) + geom_line() + theme_light()+ expand_limits(x = c(2012,2022)) +
+  labs(x = "Year", y = "region")  +
+  ggtitle("Mean value for per capita food supply variability by  group by region") 
+
+```
+
+
+```{r}
+byincome <- aggregate(x=total$Value,by = list(total$incgrp,total$Year), FUN = mean)
+View(byincome)
+```
+
+```{r}
+ggplot(byincome, aes(x = Group.2, y = x, group = Group.1, label = Group.1, color=Group.1)) + geom_line() + theme_light()+ expand_limits(x = c(2012,2022)) +
+  labs(x = "Year", y = "Income Group")  +
+  ggtitle("Mean value for per capita food supply variability by  group by income group") 
+
+
+```
+
+
+
+```{r}
+data <- subset(data, Year=="2019")
+View(data)
+```
+
+```{r}
+library(rworldmap)
+mapworld <- joinCountryData2Map(data
+                           , joinCode = "NAME"
+                           , nameJoinColumn = "Country")
+
+```
+
+```{r}
+
+#plot world map for 2018 to 2022
+# organge to blue color band, three color band
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+
+map_2019 <- mapCountryData(mapworld, nameColumnToPlot="Value",mapTitle = "Per Capita Food Supply Variability in 2019", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+
+do.call( addMapLegend, c( map_2019
+                        , legendLabels="all"
+                        ))
+```

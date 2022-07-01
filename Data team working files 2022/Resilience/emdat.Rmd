@@ -1,0 +1,144 @@
+---
+title: "emdat"
+author: "Zhongyun Zhang"
+date: "5/15/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## emdat
+
+```{r}
+#install.packages("dplyr")
+library(dplyr)
+#install.packages("ggplot2")
+library(ggplot2)
+```
+
+```{r}
+#import data
+setwd("~/Desktop/FSCI/resilience")
+data <- read.csv("emdat_disaster.csv",sep = ",",header = TRUE)
+setwd("~/Desktop/FSCI")
+worldbank <- read.csv("worldbank.csv",sep = ",",header = TRUE)
+#View(data)
+colnames(data)
+```
+
+
+```{r}
+total <- merge(data,worldbank,by = "Country")
+total <- subset(total,select = c(Country,Region,Year,ISO,Continent,Total.Deaths,Total.Damages..Adjusted...000.US..,wb_region))
+View(total)
+
+```
+
+```{r}
+# sum of total number of damages by Region
+total <- na.omit(total)
+byregion <- aggregate(x=total$Total.Deaths,by = list(total$wb_region,total$Year), FUN = sum)
+#View(byregion)
+byregion %>% count(byregion$Group.2)
+```
+
+```{r}
+ggplot(byregion, aes(x = Group.2, y = x, group = Group.1, label = Group.1, color=Group.1)) + geom_line() + theme_light()+ expand_limits(x = c(2012,2022)) +
+  labs(x = "Year", y = "Total number of death in each year by region")  +
+  ggtitle("Total number of death caused by disaster group by region") 
+```
+
+
+
+
+
+
+```{r}
+# sum of total number of damages in dollars by Region
+total <- na.omit(total)
+byregion1 <- aggregate(x=total$Total.Damages..Adjusted...000.US..,by = list(total$wb_region,total$Year), FUN = sum)
+View(byregion1)
+```
+
+```{r}
+# sum of total number of economic imoact by Region
+ggplot(byregion1, aes(x = Group.2, y = x, group = Group.1, label = Group.1, color=Group.1)) + geom_line() + theme_light()+ expand_limits(x = c(2012,2022), y = c(-1000,80000000)) +
+  labs(x = "Year", y = "Total number of economic damages in each year by continent")  +
+  ggtitle("Total number of economic impact caused by disaster group by continent in $") 
+```
+
+
+
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+year2021 <- filter(total,Year=="2021")
+year2021
+```
+
+
+```{r}
+year_2021 = subset(total,select = c(Country,Region,Year =="2021",ISO,Continent,Total.Deaths,Total.Damages..Adjusted...000.US..))
+year_2021
+```
+
+
+
+```{r}
+library(rworldmap)
+```
+
+```{r}
+mapworld <- joinCountryData2Map(year2021
+                           , joinCode = "NAME"
+                           , nameJoinColumn = "Country")
+```
+
+```{r}
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+map_2021 <- mapCountryData(mapworld, nameColumnToPlot="Total.Deaths",mapTitle = "EM-DAT human impact in 2021", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+do.call( addMapLegend, c( map_2021
+                        , legendLabels="all"
+                        , legendWidth=0.5
+                        ))
+
+```
+
+
+```{r}
+#mean per country over the last 10 years
+#Total of 93 countries are taken into account
+mean_country <- aggregate(x=total$Total.Damages..Adjusted...000.US..,by = list(total$Country), FUN = mean)
+View(mean_country)
+```
+
+```{r}
+library(rworldmap)
+#corresponding country with dataset of countries in order to plot world map
+mapworld <- joinCountryData2Map(mean_country
+                           , joinCode = "NAME"
+                           , nameJoinColumn = "Group.1")
+```
+
+```{r}
+
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+
+map_mean <- mapCountryData(mapworld, nameColumnToPlot="x",mapTitle = "EMDAT Economic impactmean per country over the last 10 years", colourPalette = c("#f7fcf0","#e0f3db","#ccebc5","#a8ddb5","#7bccc4","#4eb3d3","#2b8cbe","#0868ac","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+
+do.call( addMapLegend, c( map_mean
+                        , legendLabels="all"
+                        ))
+
+```
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+---
+title: "legatum"
+author: "Zhongyun Zhang"
+date: "5/31/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd("~/Desktop/FSCI")
+data <- read.csv("legatum.csv",sep = ",",header = TRUE)
+worldbank <- read.csv("worldbank.csv",sep = ",",header = TRUE)
+View(worldbank)
+```
+
+
+```{r}
+#Coverage
+library("tidyverse")
+library("dplyr")
+library(rworldmap)
+```
+
+```{r}
+#Global map of the country coverage of the Social capital Legatum Prosperity Index.
+#data$coverage<-ifelse(data$X2019=="NA",2,1)                      # Duplicate first column
+#data$coverage[is.na(data$coverage)] <- 0  
+data <- data %>% filter(data$pillar_name == "Social Capital")
+data$coverage <- ifelse(data$rank_2021 == "1",0,1)
+#View(data)
+```
+
+
+```{r}
+total= merge(worldbank,data,by = "Country", all.x = TRUE)
+#total$coverage[is.na(total$coverage)] <- 0  
+View(total)
+```
+
+```{r}
+mapworld <- joinCountryData2Map(total
+                           , joinCode = "ISO3"
+                           , nameJoinColumn = "country_code")
+
+```
+
+
+```{r}
+
+# organge to blue color band, three color band
+par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+
+map_2021 <- mapCountryData(mapworld, nameColumnToPlot="coverage",mapTitle = "Coverage for Social Capital Legatum in 2021", colourPalette = c("#a8ddb5","#084081"),oceanCol = "gray",missingCountryCol = 'white',addLegend = FALSE)
+
+do.call( addMapLegend, c( map_2021
+                        , legendLabels="all"
+                        ))
+```
+
